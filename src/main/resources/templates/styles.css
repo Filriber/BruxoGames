@@ -1,0 +1,238 @@
+/* Reset de margens e paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo para o corpo do documento */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo para os links */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Estilo para o cabeçalho */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    text-transform: capitalize;
+    font-weight: 700;
+}
+
+/* Estilo para o logotipo */
+.logo img {
+    width: 250px;
+    height: auto;
+    margin-right: 10px;
+}
+
+/* Estilo para o menu de navegação */
+.menu {
+    display: flex;
+    gap: 20px;
+}
+
+/* Estilo para os ícones */
+.icons {
+    display: flex;
+    gap: 20px;
+}
+
+/* Estilo para os banners */
+#banner {
+    text-align: center;
+    max-width: 100%; /* Garante que o banner não ultrapasse a largura do container */
+    margin: auto; /* Centraliza o banner horizontalmente */
+    box-sizing: border-box; /* Inclui padding e borda na largura total */
+}
+
+#banner img {
+    max-width: 100%; /* Garante que a imagem do banner se ajuste ao tamanho do container */
+    height: auto;
+}
+
+/* Estilo para as seções */
+.secao {
+    margin: 100px auto; /* Define margens superior e inferior como 100px e centraliza horizontalmente */
+    text-align: center;
+    max-width: 1920px; /* Limita a largura máxima das seções */
+    padding: 0 20px; /* Adiciona um espaço interno de 20px nas laterais */
+    box-sizing: border-box; /* Inclui padding e borda na largura total */
+    display: flex;
+    flex-wrap: wrap; /* Permite que os elementos quebrem para a próxima linha em dispositivos menores */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+}
+
+/* Estilo para as colunas */
+.coluna {
+    width: calc(25% - 20px); /* Define a largura das colunas para 25% da largura da seção, com 20px de espaço entre elas */
+    margin: 10px; /* Adiciona um espaço entre as colunas */
+    box-sizing: border-box; /* Inclui padding e borda na largura total */
+}
+
+/* Estilo para os produtos */
+.produto {
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid black;
+    padding: 20px; /* Adiciona um espaçamento interno aos produtos */
+}
+
+/* Estilo para as imagens dos produtos */
+.produto img {
+    max-width: 100%; /* Faz com que as imagens se ajustem ao tamanho do contêiner */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+/* Título do produto */
+.produto h3 {
+    margin-top: 0px;
+    font-size: 25px;
+    padding: 10px;
+}
+
+/* Descrição do produto */
+.produto p {
+    font-size: 20px; /* Reduzindo o tamanho da fonte para a descrição */
+    color: #ff6600;
+    font-weight: 700;
+    padding: 5px 10px; /* Reduzindo o padding */
+}
+
+/* Botão do produto */
+.produto button {
+    background-color: #ff6600;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px; /* Adicionando margem inferior */
+}
+
+/* Hover do botão */
+.produto button:hover {
+    background-color: #1808fa;
+}
+
+/* Estilo para o rodapé */
+.rodape{
+    background-color: #f36e20;
+    color: white;
+    height: auto;
+    width: 100%;
+    font-size: 14px;
+    font-family: helvetica;
+}
+.rodape a{
+    text-decoration: none;
+    color: white;
+}
+.rodape p{
+    margin-bottom: 5px;
+}
+.rodape-div{
+    display: flex;
+    flex-wrap: wrap;
+    width:100%;
+    margin: auto;
+    align-items: stretch;
+    padding: 60px 10px 40px 10px;
+}
+.rodape-div-1, .rodape-div-2, .rodape-div-3, .rodape-div-4{
+    display: flex;
+    width: calc(100% / 4 - 20px);
+    padding: 10px;
+}
+.rodape span{
+    font-size: 20px;
+    color: white;
+}
+.rodape-direitos{
+    width: calc(100% - 20px);
+    background-color: black;
+    padding: 10px;
+    margin: 0px;
+    text-align: center;
+}
+
+/*mobile*/
+@media (max-width: 768px) {
+    .rodape-div-1, .rodape-div-2, .rodape-div-3, .rodape-div-4{
+        width: calc(50% - 20px);
+        padding: 10px;
+    }
+    .rodape-div{
+        padding: 60px 0px 40px 0px;
+    }
+}
+
+.banners {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    max-width: 1920px;
+    flex-wrap: wrap; /* Permite que os elementos se movam para a próxima linha quando o espaço não for suficiente */
+    margin: 0 auto; /* Centraliza o contêiner horizontalmente */
+}
+
+.banner {
+    width: calc(50% - 25px); /* Define a largura de cada banner para ocupar metade da largura do contêiner e deixar um espaço de 25px entre eles */
+    margin-bottom: 25px; /* Adiciona um espaço entre os banners na direção vertical */
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+}
+
+
+.baner {
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    font-weight: 700;
+}
+
+/* Estilo para as colunas em dispositivos maiores */
+@media only screen and (min-width: 768px) {
+    .coluna {
+        width: calc(33.33% - 20px); /* 3 colunas por linha */
+    }
+}
+
+/* Estilo para as colunas em dispositivos ainda maiores */
+@media only screen and (min-width: 992px) {
+    .coluna {
+        width: calc(25% - 20px); /* 4 colunas por linha */
+    }
+}
+
+/* Estilo para as colunas em dispositivos menores */
+@media only screen and (max-width: 767px) {
+    .coluna {
+        width: calc(50% - 20px); /* 2 colunas por linha */
+    }
+}
+
+/* Estilo para o banner em dispositivos menores */
+@media only screen and (max-width: 767px) {
+    #banner img {
+        width: 100%; /* Faz com que a imagem do banner ocupe toda a largura do container */
+        height: auto; /* Mantém a proporção da imagem */
+    }
+}
+
+/* Outros estilos responsivos podem ser adicionados conforme necessário */

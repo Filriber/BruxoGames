@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 1920px; /* Largura máxima de 1920px */
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box; /* Inclui padding e borda na largura total */
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            text-transform: capitalize;
+            font-weight: 700;
+        }
+        /* Estilo para o logotipo */
+        .logo img {
+            width: 250px;
+            height: auto;
+            margin-right: 10px;
+        }
+        /* Estilo para o menu de navegação */
+        .menu {
+            display: flex;
+            gap: 20px;
+        }
+        /* Estilo para os ícones */
+        .icons {
+            display: flex;
+            gap: 20px;
+        }
+        #cart {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .product img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+        .product-details {
+            flex: 1;
+        }
+        .quantity-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Adicionado para separar os elementos */
+        }
+        .remove-item {
+            color: #888;
+            cursor: pointer;
+            text-decoration: none; /* Removido sublinhado */
+            font-size: 14px; /* Redimensionado o tamanho do texto */
+            margin-left: 20px; /* Ajustado o espaçamento */
+        }
+        .remove-item:hover {
+            color: #ff0000;
+        }
+        .finalize-order {
+            display: inline-block;
+            background-color: #FFD700;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+        .finalize-order:hover {
+            background-color: #FFC400;
+        }
+        .rodape {
+            background-color: #f36e20;
+            color: white;
+            text-align: center;
+            padding: auto; /* Aumentado o espaçamento */
+            font-size: 14px;
+            font-family: helvetica;
+        }
+        .rodape a {
+            text-decoration: none;
+            color: white;
+        }
+        .rodape p {
+            margin-bottom: 10px; /* Aumentado o espaçamento */
+        }
+        .rodape-div {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding: 20px 20px; /* Aumentado o espaçamento */
+            box-sizing: border-box;
+        }
+        .rodape-div > div {
+            flex-basis: calc(25% - 40px); /* Ajustado o espaço entre as colunas */
+        }
+        .rodape-div span {
+            font-size: 20px;
+            color: white;
+            display: block; /* Garante que o texto fique em uma linha */
+            margin-bottom: 10px; /* Aumenta o espaçamento abaixo do texto */
+        }
+        .rodape-direitos {
+            background-color: black;
+            color: white;
+            padding: 20px 0; /* Aumentado o espaçamento */
+            margin-top: 20px; /* Aumentado o espaçamento do topo */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                </div>
+                <div class="menu">
+                    <a href="#">Jogos para Família</a>
+                    <a href="#">Jogos de blefe e dedução</a>
+                    <a href="#">Jogos de Festa</a>
+                    <a href="#">Jogos Cooperativos</a>
+                    <a href="#">Franquias</a>
+                </div>
+                <div class="icons">
+                    <i class="fas fa-search"></i>
+                    <i class="fas fa-user"></i>
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="cart" class="container">
+        <h2>Meu Carrinho</h2>
+        <div class="product">
+            <img src="chair.jpg" alt="Chair">
+            <div class="product-details">
+                <p>Gabinete Gamer Mancer Goblin V2, Mid Tower, Lateral de Vidro, Com 3 Fans Rainbow, Branco, MCR-GBNV2-WH</p>
+                <p>SKU: MCR-GBNV2-WH</p>
+            </div>
+            <div class="quantity-price">
+                <input type="number" id="quantity" value="1">
+                <p>R$ 223.52</p>
+            </div>
+            <a href="#" class="remove-item" onclick="removeItem(this)"><i class="fas fa-trash-alt"></i> Remover</a>
+        </div>
+        <!-- Aqui estão os detalhes do primeiro item no carrinho -->
+        <!-- Você pode adicionar mais divs .product para cada item no carrinho -->
+        <button class="finalize-order" onclick="finalizeOrder()">Finalizar Pedido</button>
+    </div>
+
+    <footer class="rodape" id="contato">
+        <div class="rodape-div">
+            <div class="rodape-div-1">
+                <span>Endereço</span>
+                <p>SIA Trecho 5 lote 000 bloco z sala 900 - Guará, Brasília - DF, 70000-010</p>
+            </div>
+            <div class="rodape-div-2">
+                <span>Contatos</span>
+                <p>contato@na.na</p>
+                <p>(99) 98765-4321</p>
+            </div>
+            <div class="rodape-div-3">
+                <span>Links</span>
+                <p><a href="#servicos">Serviços</a></p>
+                <p><a href="#empresa">Empresa</a></p>
+                <p><a href="#sobre">Sobre</a></p>
+            </div>
+            <div class="rodape-div-4">
+                <span>Outros</span>
+                <p>Políticas de Privacidade</p>
+            </div>
+        </div>
+        <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
+    </footer>
+
+    <script>
+        function removeItem(element) {
+            var productElement = element.parentElement;
+            productElement.remove();
+        }
+
+        function finalizeOrder() {
+            // Lógica para finalizar o pedido
+        }
+    </script>
+</body>
+</html>

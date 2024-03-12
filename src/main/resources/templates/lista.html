@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .user-list {
+            width: 100%;
+            margin: 0 auto;
+            position: relative; /* Adicionando posição relativa para posicionamento absoluto */
+        }
+        .user-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .user-list th, .user-list td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .user-list tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .user-list th {
+            background-color: #f05e1a;
+            color: white;
+        }
+        .register-button {
+            position: absolute;
+            top: 10px; /* Distância do topo */
+            right: 10px; /* Distância da direita */
+        }
+        .register-button button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .register-button button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-list">
+        <div class="register-button">
+            <button id="cadastroButton">Cadastrar</button>
+        </div>
+        <h2>Lista de Usuários</h2>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Grupo</th> <!-- Nova coluna adicionada -->
+                <th>Alterar</th>
+                <th>Hab/des</th>
+            </tr>
+            <!-- Adicione mais linhas aqui para cada usuário -->
+            <tr>
+                <td>Nome do Usuário</td>
+                <td>email@exemplo.com</td>
+                <td>Ativo</td>
+                <td>Administrador</td> <!-- Nova célula adicionada -->
+                <td><button>Alterar</button></td>
+                <td><button>Hab/des</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById("cadastroButton").addEventListener("click", function() {
+            window.location.href = "cadastro.html";
+        });
+    </script>
+</body>
+</html>
