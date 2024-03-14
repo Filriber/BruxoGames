@@ -1,4 +1,4 @@
-package com.bruxo.bruxo.repositories;
+package com.bruxo.bruxo.service;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

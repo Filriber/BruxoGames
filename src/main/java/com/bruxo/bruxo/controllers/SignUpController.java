@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.bruxo.bruxo.models.Usuario;
 import com.bruxo.bruxo.models.UsuarioDto;
-import com.bruxo.bruxo.repositories.UsuarioRepository;
+import com.bruxo.bruxo.service.UsuarioRepository;
 
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

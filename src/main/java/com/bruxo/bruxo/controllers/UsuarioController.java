@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.bruxo.bruxo.models.Usuario;
 import com.bruxo.bruxo.models.UsuarioDto;
-import com.bruxo.bruxo.repositories.UsuarioRepository;
+import com.bruxo.bruxo.service.UsuarioRepository;
 
 
 

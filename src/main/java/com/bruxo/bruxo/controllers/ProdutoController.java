@@ -1,79 +1,138 @@
 package com.bruxo.bruxo.controllers;
 
+import com.bruxo.bruxo.models.Produto;
+import com.bruxo.bruxo.models.ProdutoDto;
+import com.bruxo.bruxo.service.ProdutoRepository;
+
+import jakarta.validation.Valid;
+import java.security.Principal;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.bruxo.bruxo.models.ImagemProduto;
-import com.bruxo.bruxo.models.ProdutoDto;
 
 @Controller
 @RequestMapping("/produtos")
 public class ProdutoController {
-    
+
     @Autowired
-    private ProdutoService service;
-    
-    @GetMapping
-    public String listar(Model model,
-            @RequestParam(name="qtde", defaultValue = "10") int qtdeItens,
-            @RequestParam(name="pagina", defaultValue = "0")int numPag) {
-        return "produtos/lista";
-    }
-    
-    @GetMapping("/incluir")
-    public String abrirFormInclusao(Model model) {
-        model.addAttribute("produto", new ProdutoDto());
-        return "produtos/form";
+    private ProdutoRepository repo;
+
+    @GetMapping({"", "/"})
+    public String showProdutosList(Model model) {
+        List<Produto> produtos = repo.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        model.addAttribute("produtos", produtos);
+        return "produtos/index";
     }
 
-    @PostMapping("/incluir")
-    public String salvarInclusao(@ModelAttribute("produto") ProdutoDto dto, RedirectAttributes redirectAttributes) {
-        service.incluir(dto);
-        return "redirect:/produtos/incluir";
+    @GetMapping("/create")
+    public String showCriaProduto(Model model) {
+        ProdutoDto produtoDto = new ProdutoDto();
+        model.addAttribute("produtoDto", produtoDto);
+        return "produtos/CriaProduto";
     }
-    
-    
-    @GetMapping("/visualizar/{id}")
-    public String visualizar(Model model, @PathVariable int id) {
-        ProdutoDto dto  = service.findById(id);
-        model.addAttribute("produto", dto);
-        return "produtos/visualizar";
+
+    @PostMapping("/create")
+    public String criarProduto(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // Se houver erros de validação, retorne para o formulário de registro
+            return "produtos/CriaProduto";
+        }
+
+        // Mapear produtoDto para a entidade produto
+        Produto produto = new Produto();
+
+        produto.setNome(produtoDto.getNome());
+        produto.setAvaliacao(produtoDto.getAvaliacao());
+        produto.setPreco(produtoDto.getPreco());
+        produto.setQtd_estoque(produtoDto.getQtd_estoque());
+        produto.setDescricao(produtoDto.getDescricao());
+        produto.setStatus(produtoDto.getStatus());
+        // Configurar atributos de produtoDto para produto
+
+        // Salvar produto no repositório
+        repo.save(produto);
+
+        // Redirecionar para a lista de usuários após a criação bem-sucedida
+        return "redirect:/produtos";
     }
-    
+
+    @GetMapping("/edit")
+    public String MostraEdicao(Model model, @RequestParam int id) {
+
+        try {
+            Produto produto = repo.findById(id).get();
+            model.addAttribute("produto", produto);
+
+            ProdutoDto produtoDto = new ProdutoDto();
+            produtoDto.setId(produto.getId());
+            produtoDto.setNome(produto.getNome());
+            produtoDto.setAvaliacao(produto.getAvaliacao());
+            produtoDto.setPreco(produto.getPreco());
+            produtoDto.setQtd_estoque(produto.getQtd_estoque());
+            produtoDto.setDescricao(produto.getDescricao());
+            produtoDto.setStatus(produto.getStatus());
+
+            model.addAttribute("produtoDto", produtoDto);
+
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+            return "redirect:/produtos";
+        }
+        return "produtos/EditarProduto";
+    }
+
+
+
+    @PostMapping("/edit")
+    public String editarProduto(Model model, Principal principal, @RequestParam int id, @Valid @ModelAttribute ProdutoDto produtoDto, BindingResult bindingResult) {
+
+        try {
+            Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+            model.addAttribute("produto", produto);
+
+            if (bindingResult.hasErrors()) {
+                // Se houver erros de validação, retorne para o formulário de edição
+                return "produtos/EditarProduto";
+            }
+
+            // Configurar atributos de produtoDto para produto
+            produto.setNome(produtoDto.getNome());
+            produto.setAvaliacao(produtoDto.getAvaliacao());
+            produto.setPreco(produtoDto.getPreco());
+            produto.setQtd_estoque(produtoDto.getQtd_estoque());
+            produto.setDescricao(produtoDto.getDescricao());
+
+            // Salvar produto no repositório
+            repo.save(produto);
+
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+        }
+
+        // Redirecionar para a lista de usuários após a edição bem-sucedida
+        return "redirect:/produtos";
+    }
+
+
+
+    @PostMapping("/atualizarStatus")
+    public String atualizaStatus(@RequestParam int id, @ModelAttribute ProdutoDto produtoDto) {
+        Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("produto não encontrado"));
+
+        //altera o status do produto
+        produto.setStatus("Ativo".equals(produto.getStatus()) ? "Inativo" : "Ativo");
+        //se o status for ativo, se for true, altera para inativo, caso contrario altera para ativo
+
+        repo.save(produto);
+        return "redirect:/produtos";
+    }
+
 }
-
-@GetMapping("/visualizar/{produtoId}/imagens/{nomeArquivo}")
-	@ResponseBody
-	public ResponseEntity<byte[]> visualizarImagem(@PathVariable int produtoId, @PathVariable String nomeArquivo) {
-		ImagemProduto imagemEntity = imagemRepository.findByProduto_IdAndNomeArquivo(produtoId, nomeArquivo)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-						"Arquivo " + nomeArquivo + " não encontrado"));
-		String[] nomeExtensao = imagemEntity.getNomeArquivo().split("\\.");
-		MediaType contentType;
-		if (nomeExtensao.length > 1) {
-			switch (nomeExtensao[1].toLowerCase()) {
-				case "png" -> contentType = MediaType.IMAGE_PNG;
-				case "jpg", "jpeg" -> contentType = MediaType.IMAGE_JPEG;
-				case "gif" -> contentType = MediaType.IMAGE_GIF;
-				default -> contentType = MediaType.APPLICATION_OCTET_STREAM;
-			}
-		} else {
-			contentType = MediaType.APPLICATION_OCTET_STREAM;
-		}
-		return ResponseEntity.ok().contentType(contentType).body(imagemEntity.getArquivo());
-
-    	}
-
-    }
-
