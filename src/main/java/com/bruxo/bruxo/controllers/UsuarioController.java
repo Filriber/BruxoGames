@@ -41,7 +41,7 @@ public class UsuarioController {
     public String showUsuariosList(Model model) {
         List<Usuario> usuarios = repo.findAll(Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("usuarios", usuarios);
-        return "usuarios/index";
+        return "usuarios/cadastro";
     }
 
 

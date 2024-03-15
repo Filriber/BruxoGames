@@ -1,0 +1,41 @@
+body {
+            font-family: Arial, sans-serif;
+        }
+        .user-list {
+            width: 100%;
+            margin: 0 auto;
+            position: relative; /* Adicionando posição relativa para posicionamento absoluto */
+        }
+        .user-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .user-list th, .user-list td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .user-list tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .user-list th {
+            background-color: #f05e1a;
+            color: white;
+        }
+        .register-button {
+            position: absolute;
+            top: 10px; /* Distância do topo */
+            right: 10px; /* Distância da direita */
+        }
+        .register-button button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .register-button button:hover {
+            background-color: #45a049;
+        }

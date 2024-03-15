@@ -1,0 +1,129 @@
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 1920px; /* Largura máxima de 1920px */
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box; /* Inclui padding e borda na largura total */
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            text-transform: capitalize;
+            font-weight: 700;
+        }
+        /* Estilo para o logotipo */
+        .logo img {
+            width: 250px;
+            height: auto;
+            margin-right: 10px;
+        }
+        /* Estilo para o menu de navegação */
+        .menu {
+            display: flex;
+            gap: 20px;
+        }
+        /* Estilo para os ícones */
+        .icons {
+            display: flex;
+            gap: 20px;
+        }
+        #cart {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .product img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+        .product-details {
+            flex: 1;
+        }
+        .quantity-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Adicionado para separar os elementos */
+        }
+        .remove-item {
+            color: #888;
+            cursor: pointer;
+            text-decoration: none; /* Removido sublinhado */
+            font-size: 14px; /* Redimensionado o tamanho do texto */
+            margin-left: 20px; /* Ajustado o espaçamento */
+        }
+        .remove-item:hover {
+            color: #ff0000;
+        }
+        .finalize-order {
+            display: inline-block;
+            background-color: #FFD700;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+        .finalize-order:hover {
+            background-color: #FFC400;
+        }
+        .rodape {
+            background-color: #f36e20;
+            color: white;
+            text-align: center;
+            padding: auto; /* Aumentado o espaçamento */
+            font-size: 14px;
+            font-family: helvetica;
+        }
+        .rodape a {
+            text-decoration: none;
+            color: white;
+        }
+        .rodape p {
+            margin-bottom: 10px; /* Aumentado o espaçamento */
+        }
+        .rodape-div {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding: 20px 20px; /* Aumentado o espaçamento */
+            box-sizing: border-box;
+        }
+        .rodape-div > div {
+            flex-basis: calc(25% - 40px); /* Ajustado o espaço entre as colunas */
+        }
+        .rodape-div span {
+            font-size: 20px;
+            color: white;
+            display: block; /* Garante que o texto fique em uma linha */
+            margin-bottom: 10px; /* Aumenta o espaçamento abaixo do texto */
+        }
+        .rodape-direitos {
+            background-color: black;
+            color: white;
+            padding: 20px 0; /* Aumentado o espaçamento */
+            margin-top: 20px; /* Aumentado o espaçamento do topo */
+        }
