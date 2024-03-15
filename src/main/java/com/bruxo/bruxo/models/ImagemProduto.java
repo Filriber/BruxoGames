@@ -1,5 +1,6 @@
 package com.bruxo.bruxo.models;
 
+import com.bruxo.bruxo.models.Produto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -10,24 +11,23 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 
-
 @Entity
-public class ImagemProduto<Produto> {
-    
+public class ImagemProduto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     private String nomeArquivo;
-    
+
     @Lob
     @Column(columnDefinition="BLOB")
     private byte[] arquivo;
 
     private int ordenacao;
-    
+
     private boolean principal;
-    
+
     @ManyToOne
     @JoinColumn(name = "produto_id",
             foreignKey = @ForeignKey(name = "fk_imagem_produto"))
@@ -40,7 +40,7 @@ public class ImagemProduto<Produto> {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public byte[] getArquivo() {
         return arquivo;
     }
@@ -80,5 +80,5 @@ public class ImagemProduto<Produto> {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-    
+
 }

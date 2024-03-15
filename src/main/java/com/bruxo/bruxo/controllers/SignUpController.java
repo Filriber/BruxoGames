@@ -32,7 +32,7 @@ public class SignUpController {
 
     @GetMapping("/signup")
     public String getSignupPage(){
-        return "usuarios/signup";
+        return "signup";
     }
 
     @PostMapping("/signup")
