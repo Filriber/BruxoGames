@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/produtos")
+@RequestMapping("/templates/produtos")
 public class ProdutoController {
 
     @Autowired
@@ -28,22 +28,22 @@ public class ProdutoController {
     @GetMapping({"", "/"})
     public String showProdutosList(Model model) {
         List<Produto> produtos = repo.findAll(Sort.by(Sort.Direction.ASC, "id"));
-        model.addAttribute("produtos", produtos);
-        return "produtos/index";
+        model.addAttribute("templates/produtos", produtos);
+        return "templates/produtos/index";
     }
 
     @GetMapping("/create")
     public String showCriaProduto(Model model) {
         ProdutoDto produtoDto = new ProdutoDto();
         model.addAttribute("produtoDto", produtoDto);
-        return "produtos/CriaProduto";
+        return "templates/produtos/CriaProduto";
     }
 
     @PostMapping("/create")
     public String criarProduto(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             // Se houver erros de validação, retorne para o formulário de registro
-            return "produtos/CriaProduto";
+            return "templates/produtos/CriaProduto";
         }
 
         // Mapear produtoDto para a entidade produto
@@ -86,7 +86,7 @@ public class ProdutoController {
             System.out.println("Exception: " + ex.getMessage());
             return "redirect:/produtos";
         }
-        return "produtos/EditarProduto";
+        return "templates/produtos/EditarProduto";
     }
 
 
@@ -100,7 +100,7 @@ public class ProdutoController {
 
             if (bindingResult.hasErrors()) {
                 // Se houver erros de validação, retorne para o formulário de edição
-                return "produtos/EditarProduto";
+                return "templates/produtos/EditarProduto";
             }
 
             // Configurar atributos de produtoDto para produto
@@ -125,7 +125,7 @@ public class ProdutoController {
 
     @PostMapping("/atualizarStatus")
     public String atualizaStatus(@RequestParam int id, @ModelAttribute ProdutoDto produtoDto) {
-        Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("produto não encontrado"));
+        Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("produto não foi encontrado"));
 
         //altera o status do produto
         produto.setStatus("Ativo".equals(produto.getStatus()) ? "Inativo" : "Ativo");

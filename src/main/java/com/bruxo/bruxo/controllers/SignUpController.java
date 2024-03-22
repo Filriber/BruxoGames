@@ -67,7 +67,7 @@ public class SignUpController {
     }
     @GetMapping("/estoquista")
     public String estoquistaPage() {
-        return "usuarios/estoquista";
+        return "templates/usuarios/estoquista";
     }
 
 }

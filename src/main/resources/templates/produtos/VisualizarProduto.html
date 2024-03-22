@@ -1,0 +1,149 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes do Produto</title>
+    <style>
+        .bolinha {
+            width: 10px;
+            height: 10px;
+            background-color: #EF2B00;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .bolinha.ativa {
+            background-color: black;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0px;
+        }
+
+        #info_container{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            position: relative;
+            top: 450px;
+            padding-right: 50px;
+
+        }
+        #imagem_container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+        #botaoAvanca{
+            width: 80px;
+            height: 80px;
+            bottom: 420px;
+            left: 390px;
+            position:relative;
+            background-image: url('https://i.pinimg.com/originals/95/3d/6c/953d6c0a8026ae79e81a689692428c6f.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+        }
+        #botaoVolta{
+            width: 80px;
+            height: 80px;
+            bottom: 500px;
+            right: 390px;
+            position:relative;
+            background-image: url('https://cdn-icons-png.freepik.com/512/6652/6652605.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+        }
+        .info{
+            font-size: 30px;
+        }
+
+
+    </style>
+</head>
+<body>
+<h1>Detalhes do Produto</h1>
+<div>
+    <div id="info_container">
+        <h2 class="info" th:text="${produto.nome}"></h2>
+        <p  class="info" th:text="${produto.descricao}"></p>
+        <p  class="info">Preço: R$ <span th:text="${produto.preco}"></span></p>
+        <p  class="info">Avaliação: <span th:text="${produto.avaliacao}"></span></p>
+        <button style="width: 250px; height: 50px; background-color: #EF2B00; color: #EDEDED; font-size: 20px; border-radius: 50px">Comprar</button>
+    </div >
+
+    <div id="imagem_container" class="me-2 mb-2">
+        <img id="imagemAtual" th:src="${'/imagens_produtos/' + imagens[0]}" class="img-thumbnail" style="max-width: 700px; max-height: 700px;" >
+
+
+        <div id="indicadores">
+            <span th:each="imagem, index : ${imagens}" class="bolinha" onclick="mostrarImagem([[${index.index}]])"></span>
+        </div>
+        <button id="botaoAvanca" onclick="proximaImagem()"></button>
+        <button id="botaoVolta" onclick="voltaImagem()"></button>
+
+
+    </div>
+</div>
+<script th:inline="javascript">
+    var imagens = /*[[${produto.imagens}]]*/;
+    var imagemPadrao = /*[[${produto.imagemPadrao}]]*/;
+    var indiceAtual = -1; // Inicializa o indice atual como -1
+
+    function proximaImagem() {
+        indiceAtual++;
+        if (indiceAtual >= imagens.length) {
+            indiceAtual = 0;
+        }
+        atualizarImagem();
+    }
+
+    function voltaImagem() {
+        indiceAtual--;
+        if (indiceAtual < 0) {
+            indiceAtual = imagens.length - 1;
+        }
+        atualizarImagem();
+    }
+
+    function mostrarImagem(indice) {
+        indiceAtual = indice;
+        atualizarImagem();
+    }
+
+    function atualizarImagem() {
+        if (imagens.length > 0) {
+            if (indiceAtual === -1) {
+                if (imagemPadrao && imagens.includes(imagemPadrao)) {
+                    // Se houver uma imagem padrao e ela estiver na lista de imagens, mostra primeiro
+                    indiceAtual = imagens.indexOf(imagemPadrao);
+                } else {
+                    // Caso contrario, exiba a primeira imagem da lista
+                    indiceAtual = 0;
+                }
+            }
+            document.getElementById('imagemAtual').src = '/imagens_produtos/' + imagens[indiceAtual];
+            var bolinhas = document.querySelectorAll('.bolinha');
+            for (var i = 0; i < bolinhas.length; i++) {
+                bolinhas[i].classList.remove('ativa');
+            }
+            bolinhas[indiceAtual].classList.add('ativa');
+        }
+    }
+
+    // exibir a primeira imagem quando a pagin carrega
+    window.onload = function() {
+        atualizarImagem();
+    };
+</script>
+
+
+
+</body>
+</html>

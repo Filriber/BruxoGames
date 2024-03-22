@@ -23,7 +23,7 @@ import com.bruxo.bruxo.service.UsuarioRepository;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/usuarios")
+@RequestMapping("/templates/usuarios")
 @Service
 public class UsuarioController {
 
@@ -40,8 +40,8 @@ public class UsuarioController {
     @GetMapping({"", "/"})
     public String showUsuariosList(Model model) {
         List<Usuario> usuarios = repo.findAll(Sort.by(Sort.Direction.DESC, "id"));
-        model.addAttribute("usuarios", usuarios);
-        return "usuarios/cadastro";
+        model.addAttribute("templates/usuarios", usuarios);
+        return "templates/usuarios/cadastro";
     }
 
 
@@ -49,19 +49,19 @@ public class UsuarioController {
     public String showCriaUsuario(Model model) {
         UsuarioDto usuarioDto = new UsuarioDto();
         model.addAttribute("usuarioDto", usuarioDto);
-        return "usuarios/CriaUsuario";
+        return "templates/usuarios/CriaUsuario";
     }
 
     @PostMapping("/create")
     public String criarUsuario(@ModelAttribute("usuarioDto") @Valid UsuarioDto usuarioDto, BindingResult bindingResult, Model Model) {
         if (bindingResult.hasErrors()) {
             // Se houver erros de validação, retorne para o formulário de registro
-            return "usuarios/CriaUsuario";
+            return "templates/usuarios/CriaUsuario";
         }
 
         if (repo.existsByEmail((usuarioDto.getEmail()))) {
             bindingResult.rejectValue("email", "error.usuarioDto", "Este email já está em uso");
-            return "usuarios/CriaUsuario";
+            return "templates/usuarios/CriaUsuario";
         }
 
         // Mapear UsuarioDto para a entidade Usuario
@@ -111,7 +111,7 @@ public class UsuarioController {
             System.out.println("Exception: " + ex.getMessage());
             return "redirect:/usuarios";
         }
-        return "usuarios/EditarUsuario";
+        return "templates/usuarios/EditarUsuario";
 
     }
 
@@ -120,7 +120,7 @@ public String editarUsuario(Model model, Principal principal, @RequestParam int 
     // Verificar se o usuário autenticado está tentando editar seu próprio perfil
     if (principal != null && principal.getName().equals(usuarioDto.getEmail())) {
         bindingResult.rejectValue("email", "error.usuarioDto", "Você não pode editar seu próprio perfil");
-        return "usuarios/EditarUsuario";
+        return "templates/usuarios/EditarUsuario";
     }
 
     try {
@@ -129,7 +129,7 @@ public String editarUsuario(Model model, Principal principal, @RequestParam int 
 
         if (bindingResult.hasErrors()) {
             // Se houver erros de validação, retorne para o formulário de edição
-            return "usuarios/EditarUsuario";
+            return "templates/usuarios/EditarUsuario";
         }
 
         // Configurar atributos de usuarioDto para usuario
