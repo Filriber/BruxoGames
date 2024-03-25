@@ -1,12 +1,10 @@
 package com.bruxo.bruxo.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Produtos")
@@ -29,7 +27,29 @@ public class Produto {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    private String arquivo_imagem ;
+    @ElementCollection
+    @CollectionTable(name="Produto_Imagens", joinColumns =@JoinColumn(name = "produto_id"))
+    @Column(name = "imagem")
+    private List<String> imagens = new ArrayList<>();
+
+    @Column(name = "imagem_padrao")
+    private String imagemPadrao;
+
+    public List<String> getImagens() {
+        return imagens;
+    }
+
+    public void setImagens(List<String> imagens) {
+        this.imagens = imagens;
+    }
+
+    public String getImagemPadrao() {
+        return imagemPadrao;
+    }
+
+    public void setImagemPadrao(String imagemPadrao) {
+        this.imagemPadrao = imagemPadrao;
+    }
 
     public int getId() {
         return id;
@@ -86,14 +106,5 @@ public class Produto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public String getArquivo_imagem() {
-        return arquivo_imagem;
-    }
-
-    public void setArquivo_imagem(String arquivo_imagem) {
-        this.arquivo_imagem = arquivo_imagem;
-    }
-
 
 }

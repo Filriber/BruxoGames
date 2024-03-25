@@ -25,14 +25,14 @@ public class SignUpController {
     private UsuarioRepository usuarioRepository;
 
     PasswordEncoder passwordEncoder;
-    
+
     public SignUpController(UsuarioRepository usuarioRepository){
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @GetMapping("/signup")
     public String getSignupPage(){
-        return "signup";
+        return "usuarios/signup";
     }
 
     @PostMapping("/signup")
@@ -51,10 +51,10 @@ public class SignUpController {
 
                 if ("Cliente".equals(usuario.getGrupo())) {
                     return "redirect:/signup?error=cliente";
-                } else if ("Administrador".equals(usuario.getGrupo())) {
+                } else if ("Administrador".equals(usuario.getGrupo()) && "Ativo".equals(usuario.getStatus())) {
                     return "redirect:/";
-                } else if ("Estoquista".equals(usuario.getGrupo())) {
-                    return "redirect:/estoquista";
+                } else if ("Estoquista".equals(usuario.getGrupo()) && "Ativo".equals(usuario.getStatus())) {
+                    return "redirect:/";
                 } else {
                     return "redirect:/signup?error";
                 }
@@ -65,9 +65,4 @@ public class SignUpController {
             return "redirect:/signup?error";
         }
     }
-    @GetMapping("/estoquista")
-    public String estoquistaPage() {
-        return "templates/usuarios/estoquista";
-    }
-
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto rounded border p-4 m-4">
+            <h2 class="text-center mb-5"> Novo Usuario</h2>
+
+            <form method="post" enctype="multipart/form-data" th:object="${usuarioDto}">
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Nome</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${usuarioDto.nome}">
+                        <p th:if="${#fields.hasErrors('nome')}" th:errorclass="text-danger"
+                           th:errors="${usuarioDto.nome}"></p>
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Email</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${usuarioDto.email}">
+                        <p th:if="${#fields.hasErrors('email')}" th:errorclass="text-danger"
+                           th:errors="${usuarioDto.email}"></p>
+                    </div>
+                </div>
+                <!-- comment -->
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">CPF</label>
+                    <div class="col-sm-8">
+                        <label>(insira apenas números)</label>
+                        <input class="form-control" th:field="${usuarioDto.cpf}">
+                        <p th:if="${#fields.hasErrors('cpf')}" th:errorclass="text-danger"
+                           th:errors="${usuarioDto.cpf}"></p>
+                    </div>
+                </div>
+                <!-- comment -->
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Senha</label>
+                    <div class="col-sm-8">
+                        <label>(deve conter mais de 6 caracteres)</label>
+                        <input class="form-control" th:field="${usuarioDto.senha}" th:errorclass="text-danger"
+                               type="password" name="senha" placeholder="digite uma senha"/>
+                        <div  th:if="${#fields.hasErrors('senha')}" th:errorclass="text-danger"
+                              th:errors="${usuarioDto.senha}">Erro no atributo do password</div>
+                    </div>
+                </div>
+
+                <!-- Confirmação de Senha Section -->
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Confirme a Senha</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${usuarioDto.confirmaSenha}" th:errorclass="text-danger"
+                               type="password" name="confirmaSenha" placeholder="confirme sua senha"/>
+                        <div th:errors="*{confirmaSenha}" class="text-danger">Erro na confirmação da senha</div>
+                    </div>
+                </div>
+
+                <!-- Verificação de Senha no Servidor -->
+                <div th:if="${usuarioDto.senha ne null and usuarioDto.confirmaSenha ne null}">
+                    <div th:if="${usuarioDto.senha != usuarioDto.confirmaSenha}">
+                        <div class="alert alert-danger" role="alert">
+                            As senhas não coincidem. Por favor, digite novamente.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-sm-4 col-form-label">Grupo</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" th:field="${usuarioDto.grupo}" name="grupo">
+                            <option value="" disabled selected>Selecione um grupo</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Estoquista">Estoquista</option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('grupo')}" th:errorclass="text-danger"
+                           th:errors="${usuarioDto.grupo}"></p>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="offset-sm-4 col-sm-4 d-grid">
+                        <button type="submit" class="glow-on-hover">Confirmar</button>
+                    </div>
+
+                    <div class="col-sm-4 d-grid">
+                        <a class="btn btn-outline-secondary" href="/usuarios" role="button">Cancelar</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

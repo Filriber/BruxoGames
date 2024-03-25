@@ -1,5 +1,6 @@
 package com.bruxo.bruxo.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -7,14 +8,15 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProdutoDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int id;
 
     @NotEmpty(message = "O campo de nome não pode estar vazio")
@@ -37,7 +39,45 @@ public class ProdutoDto {
     @Size(max = 2000, message = "A descrição não pode exceder 2000 caracteres")
     private String descricao;
 
-    private MultipartFile arquivo_imagem ;
+    @NotNull(message = "Seleciona pelos uma imagem")
+    @Size(min = 1, message = "Selecione pelo menos uma imagem")
+    private List<MultipartFile> imagens;
+
+    public List<MultipartFile> getImagens() {
+        return imagens;
+    }
+
+    @Column(name = "caminho_imagem_padrao")
+    private String caminhoImagemPadrao;
+    // Novo campo para armazenar os nomes das imagens removidas
+    @Getter
+    private List<String> imagensRemovidas;
+    private String imagemPadrao;
+
+    public String getImagemPadrao() {
+        return imagemPadrao != null ? imagemPadrao : "";
+    }
+
+
+    public void setImagemPadrao(String imagemPadrao) {
+        this.imagemPadrao = imagemPadrao;
+    }
+// Getters e setters para os campos existentes...
+
+    public void setImagensRemovidas(List<String> imagensRemovidas) {
+        this.imagensRemovidas = imagensRemovidas;
+    }
+
+    public String getCaminhoImagemPadrao() {
+        return caminhoImagemPadrao;
+    }
+
+    public void setCaminhoImagemPadrao(String caminhoImagemPadrao) {
+        this.caminhoImagemPadrao = caminhoImagemPadrao;
+    }
+    public void setImagens(List<MultipartFile> imagens) {
+        this.imagens = imagens;
+    }
 
     public int getId() {
         return id;
@@ -95,13 +135,7 @@ public class ProdutoDto {
         this.descricao = descricao;
     }
 
-    public MultipartFile getArquivo_imagem() {
-        return arquivo_imagem;
-    }
 
-    public void setArquivo_imagem(MultipartFile arquivo_imagem) {
-        this.arquivo_imagem = arquivo_imagem;
-    }
 
 
 }
