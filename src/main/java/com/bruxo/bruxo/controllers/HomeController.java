@@ -11,4 +11,11 @@ public class HomeController {
         return "home";
     }
 
+   @Controller
+    public class Principal{
+        @GetMapping("/principal")
+        public String principal(){
+            return "principal";
+        }
+    }
 }
