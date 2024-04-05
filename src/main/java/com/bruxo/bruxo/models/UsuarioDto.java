@@ -20,7 +20,7 @@ public class UsuarioDto {
     @NotEmpty(message = "Necessário inserir o CPF")
     @Size(min = 11, message = "Insira um CPF Valido. ")
     @Size(max = 11, message = "Insira um CPF Valido")
-    private long cpf;
+    private String cpf;
 
     @NotEmpty(message = "A senha não pode estar vazia")
     @Size(min = 6, message = "A senha deve ter mais de 6 caracteres")
@@ -58,11 +58,10 @@ public class UsuarioDto {
         this.email = email;
     }
 
-    public long getCpf() {
-        return cpf;
+    public String getCpf() { return cpf;
     }
 
-    public void setCpf(long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

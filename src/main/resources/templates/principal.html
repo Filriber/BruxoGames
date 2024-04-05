@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/principal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 </head>
 <body>
@@ -9,8 +10,8 @@
         <div class="principal">
             <h2>Principal</h2>
             <ul>
-                <li><a href="#produto">Listar Produto</a></li>
-                <li><a href="listaUsuario.html">Listar Usuário</a></li> <!-- Alteração no link -->
+                <li><a th:href="produtos">Listar Produto</a></li>
+                <li><a th:href="usuarios">Listar Usuário</a></li> <!-- Alteração no link -->
                 <li><a href="#pedidos">Listar Pedidos</a></li>
             </ul>
         </div>
