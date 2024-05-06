@@ -1,21 +1,17 @@
 package com.bruxo.bruxo.models;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.math.BigDecimal;
 import java.util.List;
 
-public class ProdutoDto {
+import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
+public class ProdutoDto {
 
     private int id;
 
@@ -33,7 +29,7 @@ public class ProdutoDto {
     private BigDecimal preco;
 
     @NotNull(message = "Defina uma quantidade para o estoque")
-    private int qtd_estoque =1;
+    private int qtd_estoque = 1;
 
     @Size(min = 10, message = "A descrição precisa ter pelo menos 10 caracteres")
     @Size(max = 2000, message = "A descrição não pode exceder 2000 caracteres")
@@ -54,15 +50,19 @@ public class ProdutoDto {
     private List<String> imagensRemovidas;
     private String imagemPadrao;
 
+
+    @NotEmpty(message = "O campo de nome não pode estar vazio")
+    @Size(max = 50, message = "Você excedeu 50 caracteres")
+    private String marca;
+
     public String getImagemPadrao() {
         return imagemPadrao != null ? imagemPadrao : "";
     }
 
-
     public void setImagemPadrao(String imagemPadrao) {
         this.imagemPadrao = imagemPadrao;
     }
-// Getters e setters para os campos existentes...
+    // Getters e setters para os campos existentes...
 
     public void setImagensRemovidas(List<String> imagensRemovidas) {
         this.imagensRemovidas = imagensRemovidas;
@@ -75,6 +75,7 @@ public class ProdutoDto {
     public void setCaminhoImagemPadrao(String caminhoImagemPadrao) {
         this.caminhoImagemPadrao = caminhoImagemPadrao;
     }
+
     public void setImagens(List<MultipartFile> imagens) {
         this.imagens = imagens;
     }
@@ -135,7 +136,12 @@ public class ProdutoDto {
         this.descricao = descricao;
     }
 
+    public String getMarca() {
+        return marca;
+    }
 
-
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
 
 }

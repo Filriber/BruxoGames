@@ -30,7 +30,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository repo;
+
     PasswordEncoder passwordEncoder;
+
     public UsuarioController(UsuarioRepository usuarioRepository) {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
@@ -44,7 +46,7 @@ public class UsuarioController {
         model.addAttribute("grupoUsuario", grupoUsuario);
         return "usuarios/index";
     }
-    // utilizar diretório usuarios/create
+
     @GetMapping("/create")
     public String showCriaUsuario(Model model) {
         UsuarioDto usuarioDto = new UsuarioDto();
@@ -63,13 +65,20 @@ public class UsuarioController {
             bindingResult.rejectValue("email", "error.usuarioDto", "Este email já está em uso");
             return "usuarios/CriaUsuario";
         }
+        if (!usuarioDto.getSenha().equals(usuarioDto.getConfirmaSenha())) {
+            // Adicione um erro ao BindingResult
+            bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
+            return "usuarios/CriaUsuario";
+        }
 
+        // Mapear UsuarioDto para a entidade Usuario
         Usuario usuario = new Usuario();
 
         usuario.setNome(usuarioDto.getNome());
         usuario.setEmail(usuarioDto.getEmail());
         usuario.setCpf(usuarioDto.getCpf());
 
+        //encripatar a senha usando o Bcrypt
         String senhaEcripitada = this.passwordEncoder.encode(usuarioDto.getSenha());
         usuario.setSenha(senhaEcripitada);
 
@@ -133,6 +142,11 @@ public class UsuarioController {
                 return "usuarios/EditarUsuario";
             }
 
+            if (!usuarioDto.getSenha().equals(usuarioDto.getConfirmaSenha())) {
+                // Adicione um erro ao BindingResult
+                bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
+                return "usuarios/CriaUsuario";
+            }
             // Configurar atributos de usuarioDto para usuario
             usuario.setNome(usuarioDto.getNome());
             usuario.setEmail(usuarioDto.getEmail());
@@ -173,11 +187,15 @@ public class UsuarioController {
     }
 
     private boolean isValidCPF(String cpf) {
+        // Remove caracteres especiais do CPF
         cpf = cpf.replaceAll("[^0-9]", "");
+
+        // Verifica se o CPF possui 11 dígitos
         if (cpf.length() != 11) {
             return false;
         }
 
+        // Calcula o primeiro dígito verificador
         int sum = 0;
         for (int i = 0; i < 9; i++) {
             sum += (cpf.charAt(i) - '0') * (10 - i);
@@ -185,10 +203,12 @@ public class UsuarioController {
         int remainder = 11 - (sum % 11);
         int digit1 = (remainder >= 10) ? 0 : remainder;
 
+        // Verifica o primeiro dígito verificador
         if (digit1 != (cpf.charAt(9) - '0')) {
             return false;
         }
 
+        // Calcula o segundo dígito verificador
         sum = 0;
         for (int i = 0; i < 10; i++) {
             sum += (cpf.charAt(i) - '0') * (11 - i);
@@ -196,6 +216,7 @@ public class UsuarioController {
         remainder = 11 - (sum % 11);
         int digit2 = (remainder >= 10) ? 0 : remainder;
 
+        // Verifica o segundo dígito verificador
         if (digit2 != (cpf.charAt(10) - '0')) {
             return false;
         }
