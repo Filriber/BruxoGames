@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Novo Cliente</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto rounded border p-4 m-4">
+            <h2 class="text-center mb-5"> Novo Cliente</h2>
+
+            <form method="post" th:action="@{/clientes/create}" th:object="${clienteDto}">
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Nome</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="*{nome}">
+                        <p th:if="${#fields.hasErrors('nome')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.nome}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Email</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="*{email}">
+                        <p th:if="${#fields.hasErrors('email')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.email}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">CPF</label>
+                    <div class="col-sm-8">
+                        <label>(insira apenas números)</label>
+                        <input class="form-control" th:field="*{cpf}">
+                        <p th:if="${#fields.hasErrors('cpf')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.cpf}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Senha</label>
+                    <div class="col-sm-8">
+                        <label>(deve conter mais de 6 caracteres)</label>
+                        <input class="form-control" th:field="*{senha}" th:errorclass="text-danger" type="password"
+                               name="senha" placeholder="digite uma senha" />
+                        <div th:if="${#fields.hasErrors('senha')}" th:errorclass="text-danger"
+                             th:errors="${clienteDto.senha}">Erro no atributo do password</div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Confirme a Senha</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="*{confirmaSenha}" th:errorclass="text-danger"
+                               type="password" name="confirmaSenha" placeholder="confirme sua senha" />
+                        <div th:errors="*{confirmaSenha}" class="text-danger">Erro na confirmação da senha</div>
+                    </div>
+                </div>
+
+                <div th:if="${clienteDto.senha ne null and clienteDto.confirmaSenha ne null}">
+                    <div th:if="${clienteDto.senha != clienteDto.confirmaSenha}">
+                        <div class="alert alert-danger" role="alert">
+                            As senhas não coincidem. Por favor, digite novamente.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Data de Nascimento</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="date" th:field="*{dataNascimento}" required
+                               max="9999-12-31">
+                        <p th:if="${#fields.hasErrors('dataNascimento')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.dataNascimento}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Gênero</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" th:field="*{genero}">
+                            <option value="" disabled selected>Selecione o gênero</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="feminino">Feminino</option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('genero')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.genero}"></p>
+                    </div>
+                </div>
+
+                <h2 class="text-center mb-2"> Dados do Endereço de entrega</h2>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">CEP</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="*{cep}" maxlength="9">
+                        <p th:if="${#fields.hasErrors('cep')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.cep}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Logradouro</label>
+                    <div class="col-sm-8">
+                        <input id ="logradouro" class="form-control" th:field="*{logradouro}">
+                        <p th:if="${#fields.hasErrors('logradouro')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.logradouro}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Número</label>
+                    <div class="col-sm-8">
+                        <input id ="numero" class="form-control" th:field="*{numero}" maxlength="10">
+                        <p th:if="${#fields.hasErrors('numero')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.numero}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Complemento</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="*{complemento}">
+                        <p th:if="${#fields.hasErrors('complemento')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.complemento}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Bairro</label>
+                    <div class="col-sm-8">
+                        <input id="bairro" class="form-control" th:field="*{bairro}">
+                        <p th:if="${#fields.hasErrors('bairro')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.bairro}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Cidade</label>
+                    <div class="col-sm-8">
+                        <input id="cidade" class="form-control" th:field="*{cidade}">
+                        <p th:if="${#fields.hasErrors('cidade')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.cidade}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">UF</label>
+                    <div class="col-sm-8">
+                        <input id="uf" class="form-control" th:field="*{uf}" maxlength="2">
+                        <p th:if="${#fields.hasErrors('uf')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.uf}"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="offset-sm-4 col-sm-4 d-grid">
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                    </div>
+
+                    <div class="col-sm-4 d-grid">
+                        <a class="btn btn-outline-secondary" href="/login" role="button">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+<script>
+    const INPUT_CEP = document.getElementById('cep');
+    const INPUT_LOGRADOURO = document.getElementById('logradouro');
+    const INPUT_NUMERO = document.getElementById('numero');
+    const INPUT_BAIRRO = document.getElementById('bairro');
+    const INPUT_CIDADE = document.getElementById('cidade');
+    const INPUT_UF = document.getElementById('uf');
+
+    INPUT_CEP.addEventListener('blur', () => {
+        let cep = INPUT_CEP.value;
+
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/ `)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error('Não foi possível encontrar o endereço para o CEP fornecido.');
+                }
+                return resposta.json();
+            })
+            .then(json => {
+                INPUT_LOGRADOURO.value = json.logradouro || '';
+                INPUT_BAIRRO.value = json.bairro || '';
+                INPUT_CIDADE.value = json.localidade || '';
+                INPUT_UF.value = json.uf || '';
+            })
+            .catch(error => {
+                console.error('Erro ao buscar endereço:', error.message);
+            });
+    });
+</script>
+
+</body>
+
+</html>

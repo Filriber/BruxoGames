@@ -1,21 +1,48 @@
 package com.bruxo.bruxo.controllers;
 
+import com.bruxo.bruxo.models.Cliente;
+import com.bruxo.bruxo.models.Produto;
+import com.bruxo.bruxo.service.ProdutoRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-public class HomeController {
-    @GetMapping("/")
-    public String home(){
+import java.util.List;
+    @Controller
+    @RequestMapping("/home")
+    public class HomeController {
 
-        return "pagInicial";
-    }
+        @Autowired
+        private ProdutoRepository repo;
 
-   @Controller
-    public class Principal{
-        @GetMapping("/principal")
-        public String principal(){
-            return "principal";
+
+        @GetMapping({"", "/"})
+        public String home(HttpServletRequest request, Model model){
+            HttpSession session = request.getSession();
+            Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+
+
+            if (clienteLogado != null) {
+                model.addAttribute("usuarioLogado", true);
+                model.addAttribute("clienteId", clienteLogado.getId());
+                model.addAttribute("nomeCliente", clienteLogado.getNome());
+
+            } else {
+                model.addAttribute("usuarioLogado", false);
+            }
+            List<Produto> produtos = repo.findAll();
+
+            model.addAttribute("produtos", produtos);
+            return "home/index";
         }
+
+        @GetMapping("/pagina")
+        public String getHome() {
+            return "homes/pagina";
+        }
+
     }
-}

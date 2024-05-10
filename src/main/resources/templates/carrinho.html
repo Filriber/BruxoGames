@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <head>
+        <link rel="stylesheet" href="/css/home.css">
+    </head>
+    <title>Carrinho</title>
+
+    <style>
+        body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f2f2f2;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container {
+                    width: 100%;
+                    max-width: 1920px; /* Largura máxima de 1920px */
+                    margin: 0 auto;
+                    padding: 0 20px;
+                    box-sizing: border-box; /* Inclui padding e borda na largura total */
+                }
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px;
+                    background-color: white;
+                    text-transform: capitalize;
+                    font-weight: 700;
+                }
+                /* Estilo para o logotipo */
+                .logo img {
+                    width: 250px;
+                    height: auto;
+                    margin-right: 10px;
+                }
+                /* Estilo para o menu de navegação */
+                .menu {
+                    display: flex;
+                    gap: 20px;
+                }
+                /* Estilo para os ícones */
+                .icons {
+                    display: flex;
+                    gap: 20px;
+                }
+                #cart {
+                    background-color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                    margin: 20px auto;
+                    padding: 20px;
+                    text-align: center;
+                }
+                .product {
+                    display: flex;
+                    align-items: center;
+                    padding: 20px;
+                    border-bottom: 1px solid #eee;
+                }
+                .product img {
+                    width: 100px;
+                    height: 100px;
+                    margin-right: 20px;
+                }
+                .product-details {
+                    flex: 1;
+                }
+                .quantity-price {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between; /* Adicionado para separar os elementos */
+                }
+                .remove-item {
+                    color: #888;
+                    cursor: pointer;
+                    text-decoration: none; /* Removido sublinhado */
+                    font-size: 14px; /* Redimensionado o tamanho do texto */
+                    margin-left: 20px; /* Ajustado o espaçamento */
+                }
+                .remove-item:hover {
+                    color: #ff0000;
+                }
+                .finalize-order {
+                    display: inline-block;
+                    background-color: #FFD700;
+                    color: #333;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    margin-top: 20px;
+                    text-transform: uppercase;
+                }
+                .finalize-order:hover {
+                    background-color: #FFC400;
+                }
+                .rodape {
+                    background-color: #f36e20;
+                    color: white;
+                    text-align: center;
+                    padding: auto; /* Aumentado o espaçamento */
+                    font-size: 14px;
+                    font-family: helvetica;
+                }
+                .rodape a {
+                    text-decoration: none;
+                    color: white;
+                }
+                .rodape p {
+                    margin-bottom: 10px; /* Aumentado o espaçamento */
+                }
+                .rodape-div {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    flex-wrap: wrap;
+                    padding: 20px 20px; /* Aumentado o espaçamento */
+                    box-sizing: border-box;
+                }
+                .rodape-div > div {
+                    flex-basis: calc(25% - 40px); /* Ajustado o espaço entre as colunas */
+                }
+                .rodape-div span {
+                    font-size: 20px;
+                    color: white;
+                    display: block; /* Garante que o texto fique em uma linha */
+                    margin-bottom: 10px; /* Aumenta o espaçamento abaixo do texto */
+                }
+                .rodape-direitos {
+                    background-color: black;
+                    color: white;
+                    padding: 20px 0; /* Aumentado o espaçamento */
+                    margin-top: 20px; /* Aumentado o espaçamento do topo */
+                }
+    </style>
+
+</head>
+
+<body>
+<header>
+    <img src="/images/logo.png" class="logo" alt="Logo">
+    <span id="container_header">
+
+            <div id="menu"
+                 style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
+                <a class="text_header"><img src="/images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
+                </div>
+            </div>
+
+
+
+            <div id="search-container" class="search-container"
+                 style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
+
+
+                <a id="text-header" class="text_header"><img src="/images/icons/search.svg"
+                                                             style="margin-right: 15px;" />Buscar</a>
+
+            </div>
+
+
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
+                <a href="clientes/create" class="text_header">Cadastrar</a>
+            </div>
+
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
+                <a href="/login" class="text_header">Login</a>
+            </div>
+
+            <div th:if="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 30px;">
+                <a th:text="${nomeCliente}" class="text_header"
+                   style="color: rgb(52, 36, 36); flex-direction: row; display: flex; margin-right: 30px;"></a>
+
+                <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
+            </div>
+
+            <div id="container_profile" style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
+                <a th:if="${usuarioLogado}" href="clientes/PerfilCliente" style="display: flex; align-items: center; ">
+                    <img src="/images/icons/profile.svg" style="margin-right: 15px;" />
+                </a>
+                <div style="display: flex; align-items: center;">
+                    <a href="/carrinho" style="display: flex; align-items: center; ">
+                        <img src="/images/icons/cart.svg" style="margin-right: 15px;" />
+                    </a>
+                </div>
+            </div>
+
+        </span>
+</header>
+
+<h1 class="title">Seu Carrinho</h1>
+<div th:if="${carrinho.itens.size() == 0}">
+    <div
+            style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <img style="width: 250px; height: 250px; margin-top: 50px;" src="/images/await.gif">
+
+        <p style="font-family: 'Segoe UI'; font-size: 40px; font-weight: 500;">Não há produtos no seu carrinho</p>
+        <a href="/home"
+           style="text-decoration: none; color: white; background-color: #EF2B00; font-family: 'Segoe UI'; font-size: 20px; font-weight: 700; width: 250px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">Ir
+            para tela inicial</a>
+    </div>
+</div>
+
+<div th:if="${carrinho.itens.size() > 0}">
+
+    <div class="card_itens" th:each="item : ${carrinho.itens}">
+        <div id="container_all">
+            <img class="imagens_produto" th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}" />
+            <div>
+                <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
+                </p>
+                <p>Preço: <span> R$</span><span id="price_item" th:text="${item.produto.preco}"></span>
+                </p>
+
+
+                <div id="quantity_container">
+                    <form method="post" action="/carrinho/diminuir">
+                        <input type="hidden" name="produtoId" th:value="${item.produto.id}">
+
+                        <button type="submit" style="  border: none; background-color:unset ;">
+                            <img src="/images/icons/esquerda.svg" onclick="decrementar()" />
+                        </button>
+                    </form>
+                    <span id="quantity_item" th:text="${item.quantidade}"
+                          style="font-family: 'Segoe UI';font-size: 20px; margin-left: 20px;  margin-right: 20px; font-weight: 700; color: #EF2B00;"></span>
+
+                    <form method="post" action="/carrinho/aumentar">
+                        <input type="hidden" name="produtoId" th:value="${item.produto.id}">
+                        <button type="submit" style="  border: none; background-color:unset ;">
+                            <img src="/images/icons/direita.svg" onclick="incrementar()" />
+                        </button>
+                    </form>
+                </div>
+
+
+            </div>
+            <form action="/carrinho/remove" method="post">
+                <input type="hidden" name="produtoId" th:value="${item.produto.id}">
+                <button style="border: none; background-color: unset; margin-left: 120px; display: flex;"
+                        type="submit">
+                    <img src="images/icons/delete.svg" style="height: 30px; width: 30px; display: flex;" />
+                </button>
+            </form>
+        </div>
+    </div>
+    <div id="resum_container">
+        <div
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px;">
+            <h2 style="color: #EF2B00; font-family: 'Segoe UI'; font-weight: 900;">Resumo</h2>
+
+            <div>
+                <p style="color: #848484;">Total: <span style="font-weight: 800; color: black;">R$ </span><span
+                        th:text="${carrinho.calcularTotal}" style="font-weight: 800; color: black;"></span></p>
+                <p style="color: #848484;">Frete: <span style="font-weight: 800; color: black;">R$ </span><span
+                        th:text="${carrinho.frete}" style="font-weight: 800; color: black;"></span></p>
+
+            </div>
+        </div>
+        <div
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px;">
+
+            <h2 th:if="${!usuarioLogado}" style="color: #EF2B00; font-family: 'Segoe UI'; font-weight: 900;">Entrega
+            </h2>
+
+            <div th:if="${usuarioLogado}"
+                 style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px;">
+                <h2 style="color: #EF2B00; font-family: 'Segoe UI'; font-weight: 900;">Endereço de Entrega</h2>
+                <span><span th:text="${enderecoCliente.logradouro}"> </span></span>
+                <span><span th:text="${enderecoCliente.bairro}"> </span></span>
+                <span><span th:text="${enderecoCliente.numero}"> </span></span>
+                <span><span th:text="${enderecoCliente.cidade}"> </span></span>
+                <span><span th:text="${enderecoCliente.uf}"> </span></span>
+                <span><span th:text="${enderecoCliente.cep}"> </span></span>
+            </div>
+
+            <input th:if="${!usuarioLogado}" id="cep" placeholder="Digite seu CEP" style="text-align: center;" />
+            <span style="font-size: 13px; margin-top: 10px;" id="logradouro"></span>
+            <span style="font-size: 13px;" id="bairro"></span>
+            <span style="font-size: 13px;" id="cidade"></span>
+            <span style="font-size: 13px;" id="uf"></span>
+        </div>
+
+        <div th:if="${!usuarioLogado}"
+             style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px;">
+
+            <div id="frete-div" style="display: none; flex-direction: column; align-items: center;">
+                <h2 style="color: #EF2B00; font-family: 'Segoe UI'; font-weight: 900;">Escolha o frete</h2>
+                <form action="/carrinho/adicionarFrete" method="post"
+                      style="display: flex; flex-direction:column; ">
+                    <button type="submit" name="frete" value="10">Frete R$10</button>
+                    <button type="submit" name="frete" value="20">Frete R$20</button>
+                    <button type="submit" name="frete" value="35">Frete R$35</button>
+                </form>
+
+
+            </div>
+        </div>
+
+        <div th:if="${usuarioLogado}"
+             style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px;">
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <h2 style="color: #EF2B00; font-family: 'Segoe UI'; font-weight: 900;">Escolha o frete</h2>
+                <form action="/carrinho/adicionarFrete" method="post"
+                      style="display: flex; flex-direction:column; ">
+                    <button type="submit" name="frete" value="10">Frete Economico R$10</button>
+                    <button type="submit" name="frete" value="20">Frete Super Fast R$20</button>
+                    <button type="submit" name="frete" value="35">Frete Premium R$35</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <a th:href="@{/carrinho/entrega(id=${clienteId})}">Finalizar Compra</a>
+</div>
+
+</body>
+<script>
+
+    function confirmLogout() {
+        if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
+    }
+
+
+    document.getElementById("menu").addEventListener("mouseenter", function () {
+        document.getElementById("painel").style.display = "flex";
+    });
+
+    document.getElementById("menu").addEventListener("mouseleave", function () {
+        document.getElementById("painel").style.display = "none";
+    })
+
+
+    document.getElementById("")
+</script>
+
+
+<script>
+    const SPAN_LOGRADOURO = document.getElementById('logradouro');
+    const SPAN_CIDADE = document.getElementById('cidade');
+    const SPAN_UF = document.getElementById('uf');
+
+    const INPUT_CEP = document.getElementById('cep');
+
+    INPUT_CEP.addEventListener('input', () => {
+        let cep = INPUT_CEP.value;
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error('Não foi possível encontrar o endereço para o CEP fornecido.');
+                }
+                return resposta.json();
+            })
+            .then(json => {
+                SPAN_LOGRADOURO.textContent = json.logradouro || '';
+                SPAN_CIDADE.textContent = json.localidade || '';
+                SPAN_UF.textContent = json.uf || '';
+
+            })
+            .catch(error => {
+                console.error('Erro ao buscar endereço:', error.message);
+            });
+    });
+</script>
+<script>
+    const DIV_FRETE = document.getElementById('frete-div');
+
+    INPUT_CEP.addEventListener('input', () => {
+        DIV_FRETE.style.display = 'flex';
+    });
+
+
+</script>
+
+<script>
+    window.onload = function () {
+        const divCarrinho = document.querySelector('.card_itens');
+        const divMensagem = document.querySelector('div[th:if="${carrinho.itens.size() == 0}"]');
+        if (divCarrinho && divMensagem) {
+            divCarrinho.style.display = 'none';
+            divMensagem.style.display = 'block';
+        }
+    };
+</script>
+
+</html>

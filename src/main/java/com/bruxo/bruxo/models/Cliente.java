@@ -6,10 +6,6 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
-/**
- *
- * @author eliseu.santos
- */
 @Entity
 @Table(name = "Clientes")
 public class Cliente {

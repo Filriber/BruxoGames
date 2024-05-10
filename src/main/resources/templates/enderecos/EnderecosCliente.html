@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Bruxo Jogos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <style>
+        body {
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            font-weight: 600;
+            color: #EF2B00;
+        }
+
+        span {
+            font-size: 16px;
+            font-weight: 600;
+            color: black
+        }
+
+        a {
+            font-size: 16px;
+            font-weight: 600;
+            color: black
+        }
+
+        .endereco-card {
+            flex-direction: row;
+            padding: 5px;
+            margin: 20px;
+            border: 1px solid #EF2B00;
+        }
+
+        @media screen and (min-width: 768px) {
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <a style="display: flex; align-items: center; justify-content: center; width: 100px; height: 40px; background-color: #EF2B00; color: white " href="/clientes/PerfilCliente">Voltar</a>
+
+    <div class="row">
+        <div class="col-md-15 mx-auto rounded border p-4 m-4">
+
+            <h2 class="text-center mb-5">Endereços</h2>
+
+            <button id="mostrarFormulario" class="btn btn-primary">Novo Endereço</button>
+
+            <form id="formularioAdicionarEndereco" class="d-none" action="/clientes/endereco/add" method="post"
+                  th:object="${enderecoDto}">
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">CEP</label>
+                    <div class="col-sm-8">
+                        <input required id="cep" class="form-control" th:field="*{cep}" maxlength="9">
+                        <p th:if="${#fields.hasErrors('cep')}" th:errorclass="text-danger" th:errors="${enderecoDto.cep}">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Logradouro</label>
+                    <div class="col-sm-8">
+                        <input required id="logradouro" class="form-control" th:field="*{logradouro}">
+                        <p th:if="${#fields.hasErrors('logradouro')}" th:errorclass="text-danger"
+                           th:errors="${enderecoDto.logradouro}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Número</label>
+                    <div class="col-sm-8">
+                        <input required id="numero" class="form-control" th:field="*{numero}" maxlength="10">
+                        <p th:if="${#fields.hasErrors('numero')}" th:errorclass="text-danger"
+                           th:errors="${enderecoDto.numero}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Complemento</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="*{complemento}">
+                        <p th:if="${#fields.hasErrors('complemento')}" th:errorclass="text-danger"
+                           th:errors="${enderecoDto.complemento}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Bairro</label>
+                    <div class="col-sm-8">
+                        <input required id="bairro" class="form-control" th:field="*{bairro}">
+                        <p th:if="${#fields.hasErrors('bairro')}" th:errorclass="text-danger"
+                           th:errors="${enderecoDto.bairro}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Cidade</label>
+                    <div class="col-sm-8">
+                        <input required id="cidade" class="form-control" th:field="*{cidade}">
+                        <p th:if="${#fields.hasErrors('cidade')}" th:errorclass="text-danger"
+                           th:errors="${enderecoDto.cidade}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">UF</label>
+                    <div class="col-sm-8">
+                        <input required id="uf" class="form-control" th:field="*{uf}" maxlength="2">
+                        <p th:if="${#fields.hasErrors('uf')}" th:errorclass="text-danger" th:errors="${enderecoDto.uf}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-8 offset-sm-4">
+                        <div id="error-messages"></div> <!-- Contêiner para exibir mensagens de erro -->
+                        <button type="submit" class="btn btn-primary">Adicionar Endereço</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+
+        <div th:each="endereco, iterStat : ${cliente.enderecos}">
+            <div th:if="${endereco.endereco != 'FATURAMENTO'}" class="endereco-card"
+                 id="card-${iterStat.index}">
+                <p>Tipo de endereço: <span th:text="${endereco.endereco}"></span></p>
+                <p>Status: <span th:text="${endereco.status}"></span></p>
+                <p>CEP: <span th:text="${endereco.cep}"></span></p>
+                <p>Bairro: <span th:text="${endereco.bairro}"></span></p>
+                <p>Logradouro: <span th:text="${endereco.logradouro}"></span></p>
+                <p>Número: <span th:text="${endereco.numero}"></span></p>
+                <p>Complemento: <span th:text="${endereco.complemento}"></span></p>
+                <p>Cidade: <span th:text="${endereco.cidade}"></span></p>
+                <p>UF: <span th:text="${endereco.uf}"></span></p>
+
+                <form th:if="${endereco.status != 'INATIVO'}" th:action="@{/clientes/atualizarStatus}"
+                      method="post">
+                    <input type="hidden" th:name="id" th:value="${endereco.id}" />
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Tem certeza que deseja excluir esse endereço?');">Excluir
+                    </button>
+                </form>
+
+                <form th:if="${endereco.status != 'INATIVO'}" th:action="@{/clientes/definePadrao}"
+
+                      method="post">
+                    <input type="hidden" th:name="id" th:value="${endereco.id}" />
+                    <button type="submit" class="btn btn-danger btn-sm set-default-address" style="margin-top: 20px;"
+                            onclick="return confirm('Tem certeza que deseja definir esse endereço como padrão?' );"
+                            disabled>Definir como endereço padrão</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+<script>
+    const INPUT_CEP = document.getElementById('cep');
+    const INPUT_LOGRADOURO = document.getElementById('logradouro');
+    const INPUT_NUMERO = document.getElementById('numero');
+    const INPUT_BAIRRO = document.getElementById('bairro');
+    const INPUT_CIDADE = document.getElementById('cidade');
+    const INPUT_UF = document.getElementById('uf');
+
+    INPUT_CEP.addEventListener('blur', () => {
+        let cep = INPUT_CEP.value;
+
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/ `)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error('Não foi possível encontrar o endereço para o CEP fornecido.');
+                }
+                return resposta.json();
+            })
+            .then(json => {
+                INPUT_LOGRADOURO.value = json.logradouro || '';
+                INPUT_BAIRRO.value = json.bairro || '';
+                INPUT_CIDADE.value = json.localidade || '';
+                INPUT_UF.value = json.uf || '';
+            })
+            .catch(error => {
+                console.error('Erro ao buscar endereço:', error.message);
+            });
+    });
+</script>
+
+<script>
+    const btnMostrarFormulario = document.getElementById('mostrarFormulario');
+    const formularioAdicionarEndereco = document.getElementById('formularioAdicionarEndereco');
+
+    btnMostrarFormulario.addEventListener('click', () => {
+        if (formularioAdicionarEndereco.classList.contains('d-none')) {
+            formularioAdicionarEndereco.classList.remove('d-none');
+        } else {
+            formularioAdicionarEndereco.classList.add('d-none');
+        }
+    })
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const setDefaultAddressButtons = document.querySelectorAll('.set-default-address');
+        const enderecoCards = document.querySelectorAll('.endereco-card');
+        const numEnderecos = enderecoCards.length;
+
+        if (numEnderecos > 1) { // Habilita os botões apenas quando houver mais de um endereço
+            setDefaultAddressButtons.forEach(function (button) {
+                button.removeAttribute('disabled');
+            });
+        }
+    });
+</script>
+
+<script !src="">
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Adiciona um ouvinte de evento para o formulário de adicionar endereço
+        document.getElementById("formularioAdicionarEndereco").addEventListener("submit", function(event) {
+            // Obtém os valores dos campos do formulário
+            var cep = document.getElementById("cep").value;
+            var logradouro = document.getElementById("logradouro").value;
+            var numero = document.getElementById("numero").value;
+            var complemento = document.getElementById("complemento").value;
+            var bairro = document.getElementById("bairro").value;
+            var cidade = document.getElementById("cidade").value;
+            var uf = document.getElementById("uf").value;
+
+            // Define as expressões regulares para validação
+            var cepRegex = /^\d{5}-\d{3}$/;
+
+            // Executa as validações
+            var errors = [];
+            if (!cepRegex.test(cep)) {
+                errors.push("CEP deve estar no formato XXXXX-XXX");
+            }
+            if (logradouro.trim() === "") {
+                errors.push("Logradouro é obrigatório");
+            }
+            if (numero.trim() === "") {
+                errors.push("Número é obrigatório");
+            } else if (numero.length > 10) {
+                errors.push("Número deve ter no máximo 10 caracteres");
+            }
+            if (bairro.trim() === "") {
+                errors.push("Bairro é obrigatório");
+            }
+            if (cidade.trim() === "") {
+                errors.push("Cidade é obrigatória");
+            }
+            if (uf.trim() === "" || uf.length !== 2) {
+                errors.push("UF é obrigatória e deve ter 2 caracteres");
+            }
+
+            // Se houver erros, impede o envio do formulário e exibe as mensagens de erro
+            if (errors.length > 0) {
+                event.preventDefault();
+                var errorContainer = document.getElementById("error-messages");
+                errorContainer.innerHTML = "";
+                errors.forEach(function(error) {
+                    var errorParagraph = document.createElement("p");
+                    errorParagraph.textContent = error;
+                    errorParagraph.classList.add("text-danger");
+                    errorContainer.appendChild(errorParagraph);
+                });
+            }
+        });
+
+        // Adiciona um ouvinte de evento para o botão "Novo Endereço"
+        document.getElementById("mostrarFormulario").addEventListener("click", function() {
+            // Torna visível o formulário de adicionar endereço
+            document.getElementById("formularioAdicionarEndereco").classList.remove("d-none");
+        });
+    });
+
+</script>
+
+</html>

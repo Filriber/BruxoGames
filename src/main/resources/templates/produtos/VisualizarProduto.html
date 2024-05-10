@@ -1,9 +1,209 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Detalhes do Produto</title>
+
+    <head>
+    </head>
     <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+            align-items: center;
+
+
+
+        }
+
+        main {
+            margin-top: 200px;
+
+
+
+        }
+
+        header {
+            display: flex;
+            flex: 1;
+            padding-top: 50px;
+            flex-direction: row;
+            align-items: end;
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            /* background-color: rgb(8, 94, 121); */
+            background-color: white;
+            justify-content: center;
+
+
+        }
+
+        #container_header {
+            display: flex;
+            width: 1300px;
+            height: 60px;
+            border: solid #EF2B00 3px;
+            margin-left: 35px;
+            align-items: center;
+            padding-left: 30px;
+            flex-direction: row;
+            justify-content: space-around;
+
+        }
+
+        .text_header {
+            display: flex;
+            font-family: 'Segoe UI';
+            color: #EF2B00;
+            font-size: 20px;
+            font-weight: 500;
+            flex-direction: row;
+            justify-content: center;
+            align-items: inherit;
+            text-decoration: none;
+        }
+
+        #container_profile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+
+        }
+
+        .painel {
+            display: none;
+            position: absolute;
+            top: 135px;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 3px solid #ffffff;
+            animation: abrirPainel 0.1s ease forwards;
+            height: 300px;
+            align-self: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        @keyframes abrirPainel {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .painel_container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+
+        }
+
+        .menu {
+            position: relative;
+
+        }
+
+        .painel_container > section > a {
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
+        }
+
+        #container_imagem {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 4px solid black;
+            border-top: none;
+            border-bottom: none;
+            width: 700px;
+
+        }
+
+
+        #container_total {
+            display: flex;
+            border: 4px solid black;
+            flex-direction: row;
+            height: 650px;
+        }
+
+        #container_info {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            width: 500px;
+            padding: 20px;
+        }
+
+        #imagemAtual {
+
+            display: flex;
+            max-width: 500px;
+            max-height: 500px;
+        }
+
+        .button {
+            display: flex;
+            width: 250px;
+            height: 65px;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-family: 'Segoe UI';
+            font-weight: 400;
+            color: white;
+            background-color: #000000;
+
+        }
+
+        #buy_container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+        }
+
+        #quantity_container {
+            display: flex;
+            border: 2px solid black;
+            width: 170px;
+            height: 60px;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+
+        }
+
+        /* #arrows_container {
+            display: flex;
+            flex-direction: row;
+
+
+        }
+        #indicadores{
+            display: flex;
+        } */
+
         .bolinha {
             width: 10px;
             height: 10px;
@@ -13,89 +213,141 @@
             margin: 0 5px;
             cursor: pointer;
         }
+
         .bolinha.ativa {
             background-color: black;
         }
 
-        body, html {
-            height: 100%;
-            margin: 0px;
-        }
-
-        #info_container{
+        #container_buttons {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            position: relative;
-            top: 450px;
-            padding-right: 50px;
-
+            justify-content: flex-end;
         }
-        #imagem_container{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-        }
-        #botaoAvanca{
-            width: 80px;
-            height: 80px;
-            bottom: 420px;
-            left: 390px;
-            position:relative;
-            background-image: url('https://i.pinimg.com/originals/95/3d/6c/953d6c0a8026ae79e81a689692428c6f.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            border: none;
-            cursor: pointer;
-        }
-        #botaoVolta{
-            width: 80px;
-            height: 80px;
-            bottom: 500px;
-            right: 390px;
-            position:relative;
-            background-image: url('https://cdn-icons-png.freepik.com/512/6652/6652605.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            border: none;
-            cursor: pointer;
-        }
-        .info{
-            font-size: 30px;
-        }
-
-
     </style>
+
 </head>
+
 <body>
-<h1>Detalhes do Produto</h1>
-<div>
-    <div id="info_container">
-        <h2 class="info" th:text="${produto.nome}"></h2>
-        <p  class="info" th:text="${produto.descricao}"></p>
-        <p  class="info">Preço: R$ <span th:text="${produto.preco}"></span></p>
-        <p  class="info">Avaliação: <span th:text="${produto.avaliacao}"></span></p>
-        <button style="width: 250px; height: 50px; background-color: #EF2B00; color: #EDEDED; font-size: 20px; border-radius: 50px">Comprar</button>
-    </div >
+<header>
+    <img src="/images/logoOrange.svg" class="logo" alt="Logo">
+    <span id="container_header">
 
-    <div id="imagem_container" class="me-2 mb-2">
-        <img id="imagemAtual" th:src="${'/imagens_produtos/' + imagens[0]}" class="img-thumbnail" style="max-width: 700px; max-height: 700px;" >
+            <div id="menu"
+                 style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
+                <a class="text_header"><img src="/images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
+                <div id="painel" class="painel">
+                    <div class="painel_container">
+                        <section><a href="/produtos/buscamarca/Nike">Nike</a></section>
+                        <section><a href="/produtos/buscamarca/Adidas">Adidas</a></section>
+                        <section><a href="/produtos/buscamarca/Puma">Puma</a></section>
+                    </div>
+                </div>
+            </div>
+            <div id="search-container" class="search-container"
+                 style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
+                <a id="text-header" class="text_header"><img src="/images/icons/search.svg"
+                                                             style="margin-right: 15px;" />Buscar</a>
+            </div>
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
+                <a href="clientes/create" class="text_header">Cadastrar</a>
+            </div>
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
+                <a href="/login" class="text_header">Login</a>
+            </div>
+            <div th:if="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 30px;">
+                <a th:text="${nomeCliente}" class="text_header"
+                   style="color: rgb(52, 36, 36); flex-direction: row; display: flex; margin-right: 30px;"></a>
+                <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
+            </div>
+            <div id="container_profile" style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
+                <a th:if="${usuarioLogado}" href="/clientes/PerfilCliente" style="display: flex; align-items: center; ">
+                    <img src="/images/icons/profile.svg" style="margin-right: 15px;" />
+                </a>
+                <div style="display: flex; align-items: center;">
+                    <a href="/carrinho" style="display: flex; align-items: center; ">
+                        <img src="/images/icons/cart.svg" style="margin-right: 15px;" />
+                    </a>
+                </div>
+            </div>
+        </span>
+</header>
+<main>
+    <div id="container_total">
+        <div id="container_info">
 
+            <h2 id="title_product" th:text="${produto.nome}"></h2>
+            <p id="price_product">R$ <span th:text="${produto.preco}"></span></p>
+            <span th:text="${produto.marca}"
+                  style=" font-weight: 700; font-size: 25px; margin: 0; color: #000000; "></span>
 
-        <div id="indicadores">
-            <span th:each="imagem, index : ${imagens}" class="bolinha" onclick="mostrarImagem([[${index.index}]])"></span>
+            <p id="avali_product"><img src="/images/stars.svg" />
+                <span th:text="${produto.avaliacao}"></span>
+            </p>
+            <p th:text="${produto.descricao}"
+               style="word-break: break-word; font-size: 15px; font-weight: 400; width: 200px;">
+            </p>
+
         </div>
-        <button id="botaoAvanca" onclick="proximaImagem()"></button>
-        <button id="botaoVolta" onclick="voltaImagem()"></button>
+
+        <div id="container_imagem">
+            <div id="imagem_produto">
+                <img id="imagemAtual" th:src="${'/imagens_produtos/' + imagens[0]}" class="img-thumbnail">
+
+            </div>
+            <div style="display:flex; flex-direction: column; align-items: center; ">
+                <div id="arrows_container">
+                    <img src="/images/icons/arrowleft.png" style="margin-right: 50px;" id="botaoVolta"
+                         onclick="voltaImagem()" />
+                    <img src="/images/icons/arrowright.png" id="botaoAvanca" onclick="proximaImagem()" />
+                </div>
+
+                <div id="indicadores">
+                        <span th:each="imagem, index : ${imagens}" class="bolinha"
+                              onclick="mostrarImagem([[${index.index}]])"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div id="container_buttons">
+
+            <div style="display: flex; text-decoration: none; justify-content: center; align-items: center;">
+                <div th:each="tamanho : ${tamanhos}"
+                     style="display: flex;  border: 2px solid #000000; margin: 10px; height: 40px; width: 40px; align-items: center; justify-content: center;">
+                        <span th:text="${tamanho}"
+                              style="font-family: 'Segoe UI'; font-size: 20px; font-weight: 500;"></span>
+                </div>
+            </div>
+            <form action="/carrinho/adicionar" method="post">
+                <div id="buy_container" style="padding: 30px;">
+                    <div id="quantity_container">
+                        <img src="/images/icons/minus.png" onclick="decrementar()" />
+                        <p id="contador" style="font-size: 30px; font-weight: 500; padding: 20px;">1</p>
+                        <img src="/images/icons/plus.svg" onclick="incrementar()" />
+                    </div>
+                    <!-- Inputs ocultos para enviar dados do produto -->
+                    <input type="hidden" name="produtoId" id="produtoId" th:value="${produto.id}" />
+                    <input type="hidden" name="quantidade" id="quantidade" value="1" />
+                    <!-- Botão de adicionar ao carrinho -->
+                    <button type="submit" class="button">Adicionar ao carrinho</button>
+            </form>
+        </div>
 
 
     </div>
-</div>
+</main>
+
+
+</body>
+
 <script th:inline="javascript">
     var imagens = /*[[${produto.imagens}]]*/;
     var imagemPadrao = /*[[${produto.imagemPadrao}]]*/;
     var indiceAtual = -1; // Inicializa o indice atual como -1
+    var quantity = 1
 
     function proximaImagem() {
         indiceAtual++;
@@ -139,12 +391,44 @@
     }
 
     // exibir a primeira imagem quando a pagin carrega
-    window.onload = function() {
+    window.onload = function () {
         atualizarImagem();
     };
+
+
+    function incrementar() {
+        var contadorElemento = document.getElementById("contador");
+        var contadorAtual = parseInt(contadorElemento.textContent);
+        if (contadorAtual < 5) {
+            contadorElemento.textContent = contadorAtual + 1;
+            document.getElementById("quantidade").value = contadorAtual + 1;
+        }
+    }
+
+    function decrementar() {
+        var contadorElemento = document.getElementById("contador");
+        var contadorAtual = parseInt(contadorElemento.textContent);
+        if (contadorAtual > 1) {
+            contadorElemento.textContent = contadorAtual - 1;
+            document.getElementById("quantidade").value = contadorAtual - 1;
+        }
+    }
+
+    function confirmLogout() {
+        if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
+    }
+
+
+    document.getElementById("menu").addEventListener("mouseenter", function () {
+        document.getElementById("painel").style.display = "flex";
+    });
+
+    document.getElementById("menu").addEventListener("mouseleave", function () {
+        document.getElementById("painel").style.display = "none";
+    })
+
+
+    document.getElementById("")
 </script>
 
-
-
-</body>
 </html>

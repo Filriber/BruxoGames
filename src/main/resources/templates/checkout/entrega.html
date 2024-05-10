@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Endereços do Cliente</title>
+</head>
+<body>
+<h1>Endereços do Cliente</h1>
+
+<div th:each="endereco, iterStat : ${cliente.enderecos}">
+    <p>Tipo de endereço: <span th:text="${endereco.endereco}"></span></p>
+    <p>Status: <span th:text="${endereco.status}"></span></p>
+    <p>CEP: <span th:text="${endereco.cep}"></span></p>
+    <p>Bairro: <span th:text="${endereco.bairro}"></span></p>
+    <p>Logradouro: <span th:text="${endereco.logradouro}"></span></p>
+    <p>Número: <span th:text="${endereco.numero}"></span></p>
+    <p>Complemento: <span th:text="${endereco.complemento}"></span></p>
+    <p>Cidade: <span th:text="${endereco.cidade}"></span></p>
+    <p>UF: <span th:text="${endereco.uf}"></span></p>
+
+</div>
+</div>
+</body>
+</html>

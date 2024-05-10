@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Auxilium</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto rounded border p-4 m-4">
+            <h2 class="text-center mb-5">Editar Cliente</h2>
+
+            <form method="post" enctype="multipart/form-data" th:object="${clienteDto}">
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">ID</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control-plaintext" th:value="${clienteDto.id}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Email</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:field="${clienteDto.email}">
+                        <p th:if="${#fields.hasErrors('email')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.email}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Nome</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${clienteDto.nome}">
+                        <p th:if="${#fields.hasErrors('nome')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.nome}"></p>
+                    </div>
+                </div>
+
+                <!-- comment -->
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Senha</label>
+                    <div class="col-sm-8">
+                        <label>Senha (deve conter entre 4 e 6 caracteres)</label>
+                        <input class="form-control" th:field="${clienteDto.senha}" th:errorclass="text-danger"
+                               type="password" name="senha" placeholder="digite uma senha"/>
+                        <div  th:if="${#fields.hasErrors('senha')}" th:errorclass="text-danger"
+                              th:errors="${clienteDto.senha}">Erro no atributo do password</div>
+
+                    </div>
+                </div>
+
+                <!-- Confirmação de Senha Section -->
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Confirme a Senha</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${clienteDto.confirmaSenha}"
+                               type="password" name="confirmaSenha" placeholder="confirme sua senha"/>
+                        <div th:errors="*{confirmaSenha}" class="text-danger">Erro na confirmação da senha</div>
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Data de Nascimento</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="date"  th:field="${clienteDto.dataNascimento}" required
+                               max="9999-12-31">
+                        <p th:if="${#fields.hasErrors('dataNascimento')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.dataNascimento}"></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Gênero</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" th:field="${clienteDto.genero}">
+                            <option value="" disabled selected>Selecione o gênero</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="feminino">Feminino</option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('genero')}" th:errorclass="text-danger"
+                           th:errors="${clienteDto.genero}"></p>
+                    </div>
+                </div>
+
+                <!-- Verificação de Senha no Servidor -->
+                <div th:if="${clienteDto.senha ne null and clienteDto.confirmaSenha ne null}">
+                    <div th:if="${clienteDto.senha != clienteDto.confirmaSenha}">
+                        <div class="alert alert-danger" role="alert">
+                            As senhas não coincidem. Por favor, digite novamente.
+                        </div>
+                    </div>
+                </div>
+                <!-- comment -->
+
+                <div class="row">
+                    <div class="offset-sm-4 col-sm-4 d-grid">
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                    </div>
+
+                    <div class="col-sm-4 d-grid">
+                        <a class="btn btn-outline-secondary" href="/clientes/PerfilCliente" role="button">Cancelar</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>

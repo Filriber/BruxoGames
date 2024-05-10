@@ -4,11 +4,16 @@ import java.util.Optional;
 
 import com.bruxo.bruxo.models.Cliente;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
     Optional<Cliente> findByEmail(String email);
+
     boolean existsByEmail(String email);
+
+    @EntityGraph(attributePaths = { "enderecos" })
+    Optional<Cliente> findById(int id);
 
 }

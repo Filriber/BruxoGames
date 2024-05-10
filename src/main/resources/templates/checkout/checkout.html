@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(255, 145, 0);
+        }
+
+                #container_total {
+                    display: flex;
+                    flex: 1;
+                    width: 100%;
+                    height: 100%;
+                    flex-direction: row;
+
+                }
+
+                #container_list {
+                    display: flex;
+                    flex: 1;
+                    background-color: rgb(100, 100, 100);
+                    flex-direction: column;
+                }
+
+                .imagens_produto {
+                    margin: 50px;
+                    max-width: 150px;
+                    max-height: 150px;
+                }
+
+                #container_descriptions {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+
+                #container_resume {
+                    display: flex;
+                    background-color: rgb(241, 196, 255);
+                    flex-direction: column;
+                    padding: 30px;
+                    width: 250px;
+
+                }
+                #container_entrega{
+                    display: flex;
+                    background-color: rgb(55, 90, 68);
+                    flex-direction: column;
+                    padding: 30px;
+                    width: 250px;
+
+                }
+    </style>
+</head>
+
+<body>
+<main>
+    <div id="container_total">
+        <div id="container_list">
+            <div th:each="item : ${carrinho.itens}">
+                <div id="container_descriptions">
+                    <img class="imagens_produto" th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}" />
+                    <div>
+                        <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
+                        </p>
+                        <p>Preço: <span> R$ </span><span id="price_item" th:text="${item.produto.preco}"></span>
+                        </p>
+                        <p>Quantidade: <span id="quantity_item" th:text="${item.quantidade}"></span> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+            <div id="container_resume">
+                <p style="color: #848484;">Total dos Produtos: <span style="font-weight: 800; color: black;">R$
+                                    </span><span th:text="${carrinho.calcularProdutos}" style="font-weight: 800; color: black;"></span>
+                </p>
+                <p style="color: #848484;">Frete: <span style="font-weight: 800; color: black;">R$ </span><span
+                        th:text="${carrinho.frete}" style="font-weight: 800; color: black;"></span></p>
+                <p style="color: #848484;">Total: <span style="font-weight: 800; color: black;">R$ </span><span
+                        th:text="${carrinho.calcularTotal}" style="font-weight: 800; color: black;"></span></p>
+            </div>
+
+            <div id="container_entrega">
+                <h3>Entrega</h3>
+                <span><span th:text="${enderecoCliente.logradouro}"> </span></span>
+                <span><span th:text="${enderecoCliente.bairro}"> </span></span>
+                <span><span th:text="${enderecoCliente.numero}"> </span></span>
+                <span><span th:text="${enderecoCliente.cidade}"> </span></span>
+                <span><span th:text="${enderecoCliente.uf}"> </span></span>
+                <span><span th:text="${enderecoCliente.cep}"> </span></span>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+
+</html>
