@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-    @Controller
+import java.util.Optional;
+
+@Controller
     @RequestMapping("/home")
     public class HomeController {
 
@@ -44,5 +48,18 @@ import java.util.List;
         public String getHome() {
             return "homes/pagina";
         }
+        @GetMapping("/produto/detalhes")
+        public String mostrarDetalhesProduto(@PathVariable Long id, Model model) {
+            Optional<Produto> optionalProduto = repo.findById(id.intValue());
 
+            if (optionalProduto.isPresent()) {
+                Produto produto = optionalProduto.get();
+                model.addAttribute("produto", produto);
+                return "produto/detalhes";
+            } else {
+                // Se o produto não existir, você pode redirecionar para uma página de erro ou página inicial
+                return "redirect:/home";
+            }
+        }
     }
+

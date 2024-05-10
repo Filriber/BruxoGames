@@ -53,7 +53,7 @@
                 <h3>Pandemic</h3>
                 <p>R$36.00</p>
                 <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
+                <a class="fas fa-user" th:onclick="window.location.href='   /detalhes'"></a>
             </div>
         </div>
         <div class="coluna">
@@ -161,7 +161,7 @@
                 <h3>Uno</h3>
                 <p>R$XX.XX</p>
                 <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
+                <a th:href="@{/produto/detalhes(id=${produto.id})}">DETALHES</a>
             </div>
         </div>
     </section>
