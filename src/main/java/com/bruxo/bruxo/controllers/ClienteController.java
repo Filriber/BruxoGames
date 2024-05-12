@@ -3,12 +3,11 @@ package com.bruxo.bruxo.controllers;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.bruxo.bruxo.models.Cliente;
-import com.bruxo.bruxo.models.ClienteDto;
-import com.bruxo.bruxo.models.Endereco;
-import com.bruxo.bruxo.models.EnderecoDto;
+import com.bruxo.bruxo.models.*;
+import com.bruxo.bruxo.service.PedidoRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,9 @@ public class ClienteController {
 
     @Autowired
     private EnderecoRepository repository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     PasswordEncoder passwordEncoder;
 
@@ -225,10 +227,10 @@ public class ClienteController {
             model.addAttribute("clienteId", clienteLogado.getId());
             model.addAttribute("nomeCliente", clienteLogado.getNome());
 
-
-
         } else {
             model.addAttribute("usuarioLogado", false);
+            return "redirect:/login";
+
         }
 
         return "clientes/PerfilCliente";
@@ -239,9 +241,6 @@ public class ClienteController {
         HttpSession session = request.getSession();
         Cliente cliente = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-
-
 
         // Cria um ClienteDto e define os endereços
         ClienteDto clienteDto = new ClienteDto();
@@ -257,25 +256,23 @@ public class ClienteController {
             model.addAttribute("cliente", cliente);
             model.addAttribute("clienteDto", clienteDto);
 
-
         } else {
             model.addAttribute("usuarioLogado", false);
         }
 
         // Adiciona o cliente e o ClienteDto ao modelo
 
-
         return "enderecos/EnderecosCliente";
     }
 
     @PostMapping("/endereco/add")
-    public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Valid EnderecoDto enderecoDto, BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
+    public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Valid EnderecoDto enderecoDto,
+                                    BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("enderecoDto", enderecoDto);
             return "redirect:" + request.getHeader("Referer");
         }
-
 
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
         if (clienteLogado == null) {
@@ -297,7 +294,8 @@ public class ClienteController {
         // Salve o novo endereço no repositorio de endereços
         repository.save(novoEndereco);
 
-        // Redireciona de volta para a pagina de perfil do cliente apos adicionar o endereço com sucesso
+        // Redireciona de volta para a pagina de perfil do cliente apos adicionar o
+        // endereço com sucesso
 
         return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
 
@@ -307,22 +305,17 @@ public class ClienteController {
     public String atualizaStatus(@RequestParam int id, @ModelAttribute Endereco endereco) {
         Endereco endereco2 = repository.findById(id).orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
 
-        //altera o status do usuario
+        // altera o status do usuario
         endereco2.setStatus("ATIVO".equals(endereco2.getStatus()) ? "INATIVO" : "ATIVO");
 
         repository.save(endereco2);
         return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
     }
 
-
-
-
     @PostMapping("/definePadrao")
     public String defineEnderecoPadrao(@RequestParam int id, HttpSession session) {
         Endereco endereco = repository.findById(id).orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
-
-
 
         // Atualizar o endereço atual como o padrão no cliente
         clienteLogado.setEnderecoPadrao(endereco);
@@ -331,9 +324,39 @@ public class ClienteController {
         return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
     }
 
+    @GetMapping("/pedidos")
+    public String mostrarPedidos(Model model, @RequestParam int id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cliente cliente = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
+        // Obter os pedidos do cliente
+        List<Pedido> pedidos = pedidoRepository.findByCliente(cliente);
 
+        // Verificar se o cliente está logado
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+            model.addAttribute("cliente", cliente);
+            model.addAttribute("pedidos", pedidos);
 
+        } else {
+            model.addAttribute("usuarioLogado", false);
+            return "redirect:/login";
+        }
+        List<List<ItemPedido>> detalhesProdutos = new ArrayList<>();
+        for (Pedido pedido : pedidos) {
+            List<ItemPedido> itensPedido = pedido.getItens();
+            detalhesProdutos.add(itensPedido);
+        }
+        model.addAttribute("detalhesProdutos", detalhesProdutos);
+
+        // Adicionar os pedidos ao modelo
+
+        return "clientes/PedidosCliente";
+    }
 
     private boolean isValidCPF(String cpf) {
         // Remove caracteres especiais do CPF

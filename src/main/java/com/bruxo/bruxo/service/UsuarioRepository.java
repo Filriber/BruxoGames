@@ -1,4 +1,5 @@
 package com.bruxo.bruxo.service;
+
 import com.bruxo.bruxo.models.Usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;

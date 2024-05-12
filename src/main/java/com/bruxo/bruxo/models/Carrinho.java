@@ -11,6 +11,8 @@ public class Carrinho {
     private List<ItemPedido> itens;
     private BigDecimal total;
     private BigDecimal frete;
+    private FormasDePagamento formaDePagamento;
+
 
     public BigDecimal getFrete() {
         return frete;
@@ -98,27 +100,20 @@ public class Carrinho {
         return total;
     }
 
-    private class ItemPedido {
-        private Produto produto;
-        private int quantidade;
-
-        public Produto getProduto() {
-            return produto;
-        }
-
-        public void setProduto(Produto produto) {
-            this.produto = produto;
-        }
-
-        public int getQuantidade() {
-            return quantidade;
-        }
-
-        public void setQuantidade(int quantidade) {
-            this.quantidade = quantidade;
-        }
-
+    public void limpar() {
+        this.itens.clear();
+        this.formaDePagamento = null;
+        this.frete = null;
     }
+
+    public FormasDePagamento getFormaDePagamento() {
+        return formaDePagamento;
+    }
+
+    public void setFormaDePagamento(FormasDePagamento formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
+    }
+
 
     public List<ItemPedido> getItens() {
         return itens;
@@ -127,4 +122,13 @@ public class Carrinho {
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
     }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
 }

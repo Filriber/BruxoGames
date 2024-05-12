@@ -17,49 +17,36 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-    @RequestMapping("/home")
-    public class HomeController {
+@RequestMapping("/home")
+public class HomeController {
 
-        @Autowired
-        private ProdutoRepository repo;
-
-
-        @GetMapping({"", "/"})
-        public String home(HttpServletRequest request, Model model){
-            HttpSession session = request.getSession();
-            Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+    @Autowired
+    private ProdutoRepository repo;
 
 
-            if (clienteLogado != null) {
-                model.addAttribute("usuarioLogado", true);
-                model.addAttribute("clienteId", clienteLogado.getId());
-                model.addAttribute("nomeCliente", clienteLogado.getNome());
+    @GetMapping({"", "/"})
+    public String home(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
 
-            } else {
-                model.addAttribute("usuarioLogado", false);
-            }
-            List<Produto> produtos = repo.findAll();
 
-            model.addAttribute("produtos", produtos);
-            return "home/index";
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+
+        } else {
+            model.addAttribute("usuarioLogado", false);
         }
+        List<Produto> produtos = repo.findAll();
 
-        @GetMapping("/pagina")
-        public String getHome() {
-            return "homes/pagina";
-        }
-        @GetMapping("/produto/detalhes")
-        public String mostrarDetalhesProduto(@PathVariable Long id, Model model) {
-            Optional<Produto> optionalProduto = repo.findById(id.intValue());
-
-            if (optionalProduto.isPresent()) {
-                Produto produto = optionalProduto.get();
-                model.addAttribute("produto", produto);
-                return "produto/detalhes";
-            } else {
-                // Se o produto não existir, você pode redirecionar para uma página de erro ou página inicial
-                return "redirect:/home";
-            }
-        }
+        model.addAttribute("produtos", produtos);
+        return "home/index";
     }
 
+    @GetMapping("/pagina")
+    public String getHome() {
+        return "homes/pagina";
+    }
+
+}
