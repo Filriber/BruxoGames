@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Identificação - Auxilium</title>
+    <title>Bruxo Jogos</title>
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/perfil.css">
 
@@ -84,7 +84,7 @@
                 <p class="texto_cabecalho">Meu cadastro</p>
             </li>
             <li class="caixas">
-                <a href="/Central/MeusPedidos.obj" class="boxItensCentral" style="display: flex; justify-content: center;" >
+                <a th:href="@{/clientes/pedidos(id=${clienteId})}" class="boxItensCentral" style="display: flex; justify-content: center;">
                     <img src="https://img.terabyteshop.com.br/central/meus_pedidos.png" alt="Meus pedidos">
                 </a>
                 <p class="texto_cabecalho">Meus pedidos</p>

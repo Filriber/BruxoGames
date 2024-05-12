@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.w3.org/1999/xhtml">
+<!-- Esse index é página de visualização dos produtos -->
 <head>
     <title>Bruxo Jogos</title>
     <meta charset="UTF-8">
@@ -10,14 +10,23 @@
     <link rel="stylesheet" href="/css/produtos.css">
 
 </head>
+<style>
+    body{
+       background-color: #FF8C00;
+      margin: 0;
+      padding: 0;
+    }
+</style>
 <body>
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1 class="text-center my-4">Produtos</h1>
+            <h1 class="text-center my-4">Produtos Cadastrados</h1>
         </div>
         <div class="col-auto" style="margin-top: 40px">
             <a class="btn btn-primary" href="/">Voltar</a>
+            <button type="button" class="btn btn-outline-secondary" th:onclick="|window.location.href='/produtos/create'|">Adicionar Produto</button>
+
         </div>
     </div>
 

@@ -1,23 +1,240 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Endereços do Cliente</title>
 </head>
+<style>
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #000000;
+    }
+
+    /* Estilos para cada card de endereço */
+    .endereco-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 10px;
+        width: 300px;
+        height: 300px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    /* Estilos para os parágrafos dentro do card */
+    .endereco-card p {
+        margin: 5px 0;
+        font-size: 16px;
+        color: #333;
+    }
+
+    /* Estilo para realçar quando o cursor passa sobre o card */
+    .endereco-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Estilo para o botão "Novo Endereço" */
+    #mostrarFormulario {
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #ff4800;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #mostrarFormulario:hover {
+        background-color: #ff5a36;
+    }
+
+    /* Estilo para o formulário de adicionar endereço */
+    #formularioAdicionarEndereco {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #formularioAdicionarEndereco .row {
+        margin-bottom: 15px;
+    }
+
+    #formularioAdicionarEndereco label {
+        font-weight: bold;
+    }
+
+    #formularioAdicionarEndereco input[type="text"],
+    #formularioAdicionarEndereco input[type="number"],
+    #formularioAdicionarEndereco input[type="password"],
+    #formularioAdicionarEndereco input[type="email"],
+    #formularioAdicionarEndereco select {
+        width: calc(100% - 10px);
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    #formularioAdicionarEndereco button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #ff4800;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #formularioAdicionarEndereco button[type="submit"]:hover {
+        background-color: #ff5a36;
+    }
+
+</style>
+
 <body>
-<h1>Endereços do Cliente</h1>
+<h1>Endereços para entrega</h1>
 
-<div th:each="endereco, iterStat : ${cliente.enderecos}">
-    <p>Tipo de endereço: <span th:text="${endereco.endereco}"></span></p>
-    <p>Status: <span th:text="${endereco.status}"></span></p>
-    <p>CEP: <span th:text="${endereco.cep}"></span></p>
-    <p>Bairro: <span th:text="${endereco.bairro}"></span></p>
-    <p>Logradouro: <span th:text="${endereco.logradouro}"></span></p>
-    <p>Número: <span th:text="${endereco.numero}"></span></p>
-    <p>Complemento: <span th:text="${endereco.complemento}"></span></p>
-    <p>Cidade: <span th:text="${endereco.cidade}"></span></p>
-    <p>UF: <span th:text="${endereco.uf}"></span></p>
+<div  style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div th:each="endereco, iterStat : ${cliente.enderecos}">
+        <div th:if="${endereco.status != 'INATIVO'}" class="endereco-card">
 
+            <p>Tipo de endereço: <span th:text="${endereco.endereco}"></span></p>
+            <p>Status: <span th:text="${endereco.status}"></span></p>
+            <p>CEP: <span th:text="${endereco.cep}"></span></p>
+            <p>Bairro: <span th:text="${endereco.bairro}"></span></p>
+            <p>Logradouro: <span th:text="${endereco.logradouro}"></span></p>
+            <p>Número: <span th:text="${endereco.numero}"></span></p>
+            <p>Complemento: <span th:text="${endereco.complemento}"></span></p>
+            <p>Cidade: <span th:text="${endereco.cidade}"></span></p>
+            <p>UF: <span th:text="${endereco.uf}"></span></p>
+
+            <form th:action="@{/carrinho/escolhe}"
+                  method="post">
+                <input type="hidden" th:name="id" th:value="${endereco.id}" />
+                <button type="submit" class="btn btn-danger btn-sm set-default-address" style="margin-top: 20px;">Selecionar Endereço</button>
+            </form>
+        </div>
+    </div>
 </div>
-</div>
+<form id="formularioAdicionarEndereco" class="d-none" action="/carrinho/escolhe/add" method="post"
+      th:object="${enderecoDto}">
+    <div class="row mb-3">
+        <label class="col-sm-4 col-form-label">CEP</label>
+        <div class="col-sm-8">
+            <input required id="cep" class="form-control" th:field="*{cep}" maxlength="9">
+            <p th:if="${#fields.hasErrors('cep')}" th:errorclass="text-danger" th:errors="${enderecoDto.cep}">
+            </p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-4 col-form-label">Logradouro</label>
+        <div class="col-sm-8">
+            <input required id="logradouro" class="form-control" th:field="*{logradouro}">
+            <p th:if="${#fields.hasErrors('logradouro')}" th:errorclass="text-danger"
+               th:errors="${enderecoDto.logradouro}"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-4 col-form-label">Número</label>
+        <div class="col-sm-8">
+            <input required id="numero" class="form-control" th:field="*{numero}" maxlength="10">
+            <p th:if="${#fields.hasErrors('numero')}" th:errorclass="text-danger"
+               th:errors="${enderecoDto.numero}"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-4 col-form-label">Complemento</label>
+        <div class="col-sm-8">
+            <input class="form-control" th:field="*{complemento}">
+            <p th:if="${#fields.hasErrors('complemento')}" th:errorclass="text-danger"
+               th:errors="${enderecoDto.complemento}"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-4 col-form-label">Bairro</label>
+        <div class="col-sm-8">
+            <input required id="bairro" class="form-control" th:field="*{bairro}">
+            <p th:if="${#fields.hasErrors('bairro')}" th:errorclass="text-danger"
+               th:errors="${enderecoDto.bairro}"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-4 col-form-label">Cidade</label>
+        <div class="col-sm-8">
+            <input required id="cidade" class="form-control" th:field="*{cidade}">
+            <p th:if="${#fields.hasErrors('cidade')}" th:errorclass="text-danger"
+               th:errors="${enderecoDto.cidade}"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-4 col-form-label">UF</label>
+        <div class="col-sm-8">
+            <input required id="uf" class="form-control" th:field="*{uf}" maxlength="2">
+            <p th:if="${#fields.hasErrors('uf')}" th:errorclass="text-danger" th:errors="${enderecoDto.uf}"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-8 offset-sm-4">
+            <div id="error-messages"></div>
+            <button type="submit" class="btn btn-primary">Adicionar Endereço</button>
+        </div>
+    </div>
+</form>
+
+
 </body>
+<script>
+    const INPUT_CEP = document.getElementById('cep');
+    const INPUT_LOGRADOURO = document.getElementById('logradouro');
+    const INPUT_NUMERO = document.getElementById('numero');
+    const INPUT_BAIRRO = document.getElementById('bairro');
+    const INPUT_CIDADE = document.getElementById('cidade');
+    const INPUT_UF = document.getElementById('uf');
+
+    INPUT_CEP.addEventListener('blur', () => {
+        let cep = INPUT_CEP.value;
+
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/ `)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error('Não foi possível encontrar o endereço para o CEP fornecido.');
+                }
+                return resposta.json();
+            })
+            .then(json => {
+                INPUT_LOGRADOURO.value = json.logradouro || '';
+                INPUT_BAIRRO.value = json.bairro || '';
+                INPUT_CIDADE.value = json.localidade || '';
+                INPUT_UF.value = json.uf || '';
+            })
+            .catch(error => {
+                console.error('Erro ao buscar endereço:', error.message);
+            });
+    });
+</script>
 </html>

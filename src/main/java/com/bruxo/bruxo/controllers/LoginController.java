@@ -16,54 +16,54 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
 
-@Controller
-@Service
-public class LoginController {
+    @Controller
+    @Service
+    public class LoginController {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+        @Autowired
+        private ClienteRepository clienteRepository;
 
-    PasswordEncoder passwordEncoder;
+        PasswordEncoder passwordEncoder;
 
-    public LoginController(ClienteRepository clienteRepository) {
-        this.passwordEncoder = new BCryptPasswordEncoder();
-    }
+        public LoginController(ClienteRepository clienteRepository) {
+            this.passwordEncoder = new BCryptPasswordEncoder();
+        }
 
-    @GetMapping("/login")
-    public String getLogin() {
-        return "clientes/login";
-    }
+        @GetMapping("/login")
+        public String getLogin() {
+            return "clientes/login";
+        }
 
-    @PostMapping("/login")
-    public String submitLogin(ClienteDto clienteDto, HttpServletRequest request) {
-        Optional<Cliente> clienteOptional = clienteRepository.findByEmail(clienteDto.getEmail());
+        @PostMapping("/login")
+        public String submitLogin(ClienteDto clienteDto, HttpServletRequest request) {
+            Optional<Cliente> clienteOptional = clienteRepository.findByEmail(clienteDto.getEmail());
 
-        if (clienteOptional.isPresent()) {
-            Cliente cliente = clienteOptional.get();
+            if (clienteOptional.isPresent()) {
+                Cliente cliente = clienteOptional.get();
 
-            String senhaEncriptada = passwordEncoder.encode(clienteDto.getSenha());
+                String senhaEncriptada = passwordEncoder.encode(clienteDto.getSenha());
 
-            if (passwordEncoder.matches(clienteDto.getSenha(), cliente.getSenha())) {
+                if (passwordEncoder.matches(clienteDto.getSenha(), cliente.getSenha())) {
 
-                HttpSession session = request.getSession();
-                session.setAttribute("clienteLogado", cliente);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("clienteLogado", cliente);
 
-                return "redirect:/home";
+                    return "redirect:/home";
 
-            } else {
-                System.out.println("Login nao existe ou Login Incorreto");
-                return "redirect:/login?error";
+                } else {
+                    System.out.println("Login nao existe ou Login Incorreto");
+                    return "redirect:/login?error";
+                }
             }
+            return "redirect:/login?error";
         }
-        return "redirect:/login?error";
-    }
 
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-        if(session != null){
-            session.invalidate();
+        @GetMapping("/logout")
+        public String logout(HttpServletRequest request){
+            HttpSession session = request.getSession(false);
+            if(session != null){
+                session.invalidate();
+            }
+            return "redirect:/home";
         }
-        return "redirect:/home";
     }
-}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Pedido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #343a40;
+            margin-bottom: 30px;
+        }
+
+        #confirmation-message {
+            background-color: #ff4800;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        #confirmation-message p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<h1>Confirmação de Pedido</h1>
+<div id="confirmation-message">
+    <!-- Mensagem de confirmação aqui -->
+</div>
+<div id="back-link">
+    <a href="/home">Voltar para a página inicial</a>
+</div>
+<script th:inline="javascript">
+    var confirmationMessage = /*[[${confirmationMessage}]]*/ null;
+
+    if (confirmationMessage != null && confirmationMessage !== '') {
+        var confirmationDiv = document.getElementById('confirmation-message');
+        confirmationDiv.innerHTML = '<p>' + confirmationMessage + '</p>';
+    }
+</script>
+</body>
+</html>

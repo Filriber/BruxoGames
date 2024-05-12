@@ -121,14 +121,14 @@
     <div class="logo">
         <img th:src="@{../imagens/logo.png}" alt="Logo">
     </div>
-    <form th:id="loginForm" th:action="@{/principal}" method="get">
+    <form th:id="loginForm" th:action="@{/home}" method="get">
         <h1>Login</h1>
         <label for="username">E-mail</label>
         <input type="text" id="username" name="username" placeholder="E-mail" th:required="required">
         <label for="password">Senha</label>
         <input type="password" id="password" name="password" placeholder="Senha" th:required="required">
         <button class="glow-on-hover" type="submit">Entrar</button>
-        <button class="glow-on-hover" type="button" onclick="window.location.href='CriaUsuario.html'">Fazer Cadastro</button>
+        <button class="glow-on-hover" type="button" onclick="window.location.href='CriaUsuario'">Fazer Cadastro</button>
     </form>
 </div>
 </body>

@@ -1,210 +1,102 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<!-- Esse index é página HOME -->
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bruxo Games</title>
-    <link rel="stylesheet" type="text/css" href="../css/home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <title>Página Inicial - Bruxo Jogos</title>
+    <link rel="stylesheet" href="../static/css/home.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>
-    <div class="header">
-        <div class="logo">
-            <img src="../imagens/logo.png" alt="Logo">
+<header class="header">
+    <div class="logo">
+        <img src="../imagens/logo.png" alt="Logo">
+    </div>
+    <nav class="menu">
+        <a href="#" class="text_header"><img src="../imagens/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
+        <a href="#" class="text_header"><img src="../imagens/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
+    </nav>
+    <div class="icons">
+        <div th:unless="${usuarioLogado}">
+            <a href="clientes/create" class="text_header">Cadastrar</a>
         </div>
-        <div class="menu">
-            <a href="#">Jogos para Família</a>
-            <a href="#">Jogos de blefe e dedução</a>
-            <a href="#">Jogos de Festa</a>
-            <a href="#">Jogos Cooperativos</a>
-            <a href="#">Franquias</a>
+        <div th:unless="${usuarioLogado}">
+            <a href="/login" class="text_header">Login</a>
         </div>
-        <div class="icons">
-            <i class="fas fa-search" onclick="window.location.href='pagina_de_busca.html'"></i>
-            <i class="fas fa-user" th:onclick="window.location.href='   /signup'"></i>
-            <i class="fas fa-shopping-cart" onclick="window.location.href='pagina_do_carrinho.html'"></i>
+        <div th:if="${usuarioLogado}">
+            <a th:text="${nomeCliente}" class="text_header" style="margin-right: 30px;"></a>
+            <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
         </div>
+        <a th:if="${usuarioLogado}" th:href="@{/clientes/PerfilCliente}" class="text_header"><img src="../imagens/icons/profile.svg" style="margin-right: 15px;" /></a>
+        <a href="/carrinho" class="text_header"><img src="../imagens/icons/cart.svg" style="margin-right: 15px;" /></a>
     </div>
 </header>
-<section id="banner">
-    <img src="../imagens/banners.jpg" alt="banners">
-</section>
 
-<div class="baner">
-    ATÉ 50% DE DESCONTO EM JOGOS  /  ATÉ 50% DE DESCONTO EM JOGOS  /  ATÉ 50% DE DESCONTO EM JOGOS
-</div>
-
-<div id="container">
-    <section id="promocoes" class="secao">
-
-        <!-- Divida as promoções em 4 colunas -->
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/jogo-azul.jpg" alt="Azul">
-                <h3>Azul</h3>
-                <p>R$36.00</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/jogo-de-tabuleiro-pandemic.jpg" alt="Azul">
-                <h3>Pandemic</h3>
-                <p>R$36.00</p>
-                <button>COMPRAR</button>
-                <a class="fas fa-user" th:onclick="window.location.href='   /detalhes'"></a>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/jogos-de-tabuleiro-e-cardgames-the-resistance.jpg" alt="Azul">
-                <h3>The Resistance</h3>
-                <p>R$36.00</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/its-a-wonderful-world.jpg" alt="Azul">
-                <h3>It's a Wonderful World</h3>
-                <p>R$36.00</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="clear"></div>
-    </section>
+<main>
     <div class="banners">
-        <div class="banner ">
+        <div class="banner">
             <img src="../imagens/banner1.png" alt="Banner 1">
         </div>
         <div class="banner">
             <img src="../imagens/banner2.png" alt="Banner 2">
         </div>
+        <div class="banner">
+            <img src="../imagens/promo/promo8.png" alt="Banner 3">
+        </div>
     </div>
-    <section id="produtos" class="secao">
 
-        <!-- Divida os produtos em 4 colunas -->
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/double-one-piece.jpg" alt="dobble-one-piece">
-                <h3>Dobble One Piece</h3>
-                <p>R$XX.XX</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/dobble-marvel-emoji.jpg" alt="dobble-one-piece">
-                <h3>Dobble Marvel</h3>
-                <p>R$XX.XX</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/dobble-harry-potter.jpg" alt="dobble-one-piece">
-                <h3>Dobble Harry Potter</h3>
-                <p>R$XX.XX</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/dobble-classico.jpg" alt="dobble-one-piece">
-                <h3>Dobble Clássico</h3>
-                <p>R$XX.XX</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="clear"></div>
-    </section>
-    <section id="novidades" class="secao">
-
-        <!-- Divida as novidades em 4 colunas -->
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/starwars-destiny-imperio-de-guerra.jpg" alt="the-resistence">
-                <h3>Star Wars Destiny</h3>
-                <p>R$XX.XX</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/the-mind.jpg" alt="the-resistence">
-                <h3>The Mind</h3>
-                <p>R$XX.XX</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/dobble-demon-slayer.jpg" alt="the-resistence">
-                <h3>Dobble Demon Slayer</h3>
-                <p>R$XX.XX</p>
-                <button>COMPRAR</button>
-                <button onclick="window.location.href='#'">DETALHES</button>
-            </div>
-        </div>
-        <div class="coluna">
-            <div class="produto">
-                <img src="../imagens/Uno.jpg" alt="the-resistence">
-                <h3>Uno</h3>
-                <p>R$XX.XX</p>
-                <button>COMPRAR</button>
-                <a th:href="@{/produto/detalhes(id=${produto.id})}">DETALHES</a>
+    <section class="secao">
+        <div class="cards">
+            <div th:each="produto : ${produtos}" class="produto">
+                <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
+                    <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}" alt="Produto" />
+                    <h3 th:text="${produto.nome}"></h3>
+                    <p th:text="'R$ ' + ${produto.preco}"></p>
+                </a>
             </div>
         </div>
     </section>
-    <footer class="rodape" id="contato">
-        <div class="rodape-div">
+</main>
 
-            <div class="rodape-div-1">
-                <div class="rodape-div-1-coluna">
-                    <!-- elemento -->
-                    <img src="../imagens/logo.png" alt="Logo">
-                    <p>SIA Trecho 5 lote 000 bloco z sala 900 - Guará, Brasília - DF, 70000-010</p>
-                </div>
-            </div>
-
-            <div class="rodape-div-2">
-                <div class="rodape-div-2-coluna">
-                    <!-- elemento -->
-                    <span><b>Contatos</b></span>
-                    <p>contato@na.na</p>
-                    <p>(99) 98765-4321</p>
-                </div>
-            </div>
-
-            <div class="rodape-div-3">
-                <div class="rodape-div-3-coluna">
-                    <!-- elemento -->
-                    <span><b>Links</b></span>
-                    <p><a href="#servicos">Serviços</a></p>
-                    <p><a href="#empresa">Empresa</a></p>
-                    <p><a href="#sobre">Sobre</a></p>
-                </div>
-            </div>
-
-            <div class="rodape-div-4">
-                <div class="rodape-div-4-coluna">
-                    <!-- elemento -->
-                    <span><b>Outros</b></span>
-                    <p>Políticas de Privacidade</p>
-                </div>
-            </div>
-
+<footer class="rodape">
+    <div class="rodape-div">
+        <div class="rodape-div-1">
+            <span>Endereço</span>
         </div>
-        <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
-    </footer>
+        <div class="rodape-div-2">
+            <span>Contato</span>
+        </div>
+        <div class="rodape-div-3">
+            <span>Redes Sociais</span>
+        </div>
+        <div class="rodape-div-4">
+            <span>Mapa do Site</span>
+        </div>
+    </div>
+    <p class="rodape-direitos">Todos os direitos reservados.</p>
+</footer>
 </body>
+
+<script>
+    function confirmLogout() {
+        if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
+    }
+
+
+    document.getElementById("menu").addEventListener("mouseenter", function () {
+        document.getElementById("painel").style.display = "flex";
+    });
+
+    document.getElementById("menu").addEventListener("mouseleave", function () {
+        document.getElementById("painel").style.display = "none";
+    })
+
+
+    document.getElementById("")
+
+
+</script>
+
+
 </html>
