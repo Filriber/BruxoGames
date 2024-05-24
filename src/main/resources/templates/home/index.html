@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial - Bruxo Jogos</title>
-    <link rel="stylesheet" href="../static/css/home.css">
-    <link rel="stylesheet" href="styles.css">
     <style>
         /* Reset básico */
         * {
@@ -16,6 +15,7 @@
 
         body {
             font-family: Arial, sans-serif;
+            background: orange;
         }
 
         .header {
@@ -23,7 +23,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            background-color: #444; /* Nova cor do cabeçalho */
+            background-color: linear-gradient(135deg, #FFA500, #EF2B00); /* Nova cor do cabeçalho */
             color: white;
         }
 
@@ -101,35 +101,14 @@
             height: auto;
         }
 
-        .rodape {
-            background-color: #444; /* Nova cor do rodapé */
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .rodape-div {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-
-        .rodape-div div {
-            flex: 1;
-            padding: 10px;
-        }
-
-        .rodape-direitos {
-            font-size: 0.9em;
-        }
-
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
                 align-items: flex-start;
             }
 
-            .menu, .icons {
+            .menu,
+            .icons {
                 flex-direction: column;
                 align-items: flex-start;
                 margin-top: 10px;
@@ -139,7 +118,8 @@
                 align-self: flex-end;
             }
 
-            .menu a, .icons a {
+            .menu a,
+            .icons a {
                 margin-left: 0;
                 margin-top: 10px;
             }
@@ -151,14 +131,10 @@
             .banner img {
                 margin: 10px 0;
             }
-
-            .rodape-div {
-                flex-direction: column;
-                text-align: center;
-            }
         }
     </style>
 </head>
+
 <body>
 <header class="header">
     <div class="logo">
@@ -205,28 +181,11 @@
     </section>
 </main>
 
-<footer class="rodape">
-    <div class="rodape-div">
-        <div class="rodape-div-1">
-            <span>Endereço</span>
-        </div>
-        <div class="rodape-div-2">
-            <span>Contato</span>
-        </div>
-        <div class="rodape-div-3">
-            <span>Redes Sociais</span>
-        </div>
-        <div class="rodape-div-4">
-            <span>Mapa do Site</span>
-        </div>
-    </div>
-    <p class="rodape-direitos">Todos os direitos reservados.</p>
-</footer>
-
 <script>
     function confirmLogout() {
         return confirm("Tem certeza que deseja sair da sua conta?");
     }
 </script>
 </body>
+
 </html>

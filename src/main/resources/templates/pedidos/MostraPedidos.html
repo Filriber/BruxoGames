@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos do Cliente</title>
+    <style>
+        body {
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffffff;
+            font-family: 'Segoe UI';
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        thead {
+            background-color: #EF2B00;
+            color: #fff;
+            font-family: 'Segoe UI';
+
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            font-family: 'Segoe UI';
+
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #ddd;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+
+        }
+
+        li:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        li:hover {
+            background-color: #f0f0f0;
+        }
+
+        span {
+            font-weight: bold;
+            font-family: 'Segoe UI';
+
+        }
+
+        @media screen and (max-width: 600px) {
+            table {
+                width: 100%;
+            }
+        }
+
+        #voltar {
+            border: none;
+            background-color: #EF2B00;
+            color: white;
+            font-size: 20px;
+            padding: 5px;
+            margin: 20px;
+        }
+
+
+        .modalStatus {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-family: 'Segoe UI';
+            color: #EF2B00  ;
+        }
+
+        .modal-content > button{
+            border: none;
+            font-family: 'Segoe UI';
+            color: white;
+            background-color: #EF2B00;
+            margin: 5px;
+        }
+        .modal-content > select{
+           border-color: #EF2B00;
+        }
+
+        button{
+            border: none;
+            font-family: 'Segoe UI';
+            color: white;
+            background-color: #EF2B00;
+            margin: 5px;
+        }
+
+    </style>
+
+    <head>
+    </head>
+
+<body>
+<h1>Pedidos</h1>
+<button type="button" onclick="history.back()" id="voltar">Voltar</button>
+<table>
+    <thead>
+    <tr>
+        <th>Número do Pedido</th>
+        <th>Valor Total</th>
+        <th>Status</th>
+        <th>Data do Pedido</th>
+        <th>Alterar Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pedido : ${pedidos}">
+        <td th:text="${pedido.numeroSequencial}"></td>
+        <td th:text="${pedido.valorTotal}"></td>
+        <td th:text="${pedido.status}"></td>
+        <td th:text="${pedido.dataPedido}"></td>
+        <td>
+            <button type="button"
+                    th:onclick="'openModal(' + ${pedido.id} + ', \'' + pedido.status + '\')'">Alterar
+                Status</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<div class="modalStatus" id="statusModal" style="display:none;">
+    <div class="modal-content">
+
+        <h2>Alterar Status do Pedido</h2>
+        <select id="newStatus">
+            <option value="AGUARDANDO PAGAMENTO">Aguardando Pagamento</option>
+            <option value="PAGAMENTO REJEITADO">Pagamento Rejeitado</option>
+            <option value="PAGAMENTO COM SUCESSO">Pagamento com Sucesso</option>
+            <option value="AGUARDANDO RETIRADA">Aguardando Retirada</option>
+            <option value="EM TRANSITO">Em Trânsito</option>
+            <option value="ENTREGUE">Entregue</option>
+        </select>
+        <button type="button" onclick="changeStatus()">Confirmar</button>
+        <button type="button" onclick="closeModal()">Cancelar</button>
+    </div>
+</div>
+
+<script>
+    let currentPedidoId;
+
+    function openModal(pedidoId, currentStatus) {
+        currentPedidoId = pedidoId;
+        document.getElementById('newStatus').value = currentStatus;
+        document.getElementById('statusModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('statusModal').style.display = 'none';
+    }
+
+    function changeStatus() {
+        const newStatus = document.getElementById('newStatus').value;
+        fetch(`/pedido/updateStatus/${currentPedidoId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: newStatus })
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Erro ao atualizar o status.');
+            }
+        }).catch(error => {
+            alert('Erro ao atualizar o status.');
+        });
+        closeModal();
+    }
+</script>
+</body>
+
+</html>
