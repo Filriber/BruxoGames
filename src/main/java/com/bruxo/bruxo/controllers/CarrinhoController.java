@@ -315,6 +315,7 @@ public class CarrinhoController {
             pedido.setStatus("AGUARDANDO PAGAMENTO");
             pedido.setNumeroSequencial(gerarNumeroSequencial());
             pedido.setDataPedido(LocalDate.now());
+            pedido.setFrete(carrinho.getFrete());
 
             pedidoRepository.save(pedido);
 

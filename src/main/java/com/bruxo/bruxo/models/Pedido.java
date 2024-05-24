@@ -43,6 +43,7 @@ public class Pedido {
 
     private LocalDate dataPedido;
 
+    private BigDecimal frete;
 
     public LocalDate getDataPedido() {
         return dataPedido;
@@ -114,4 +115,14 @@ public class Pedido {
     public void setFormaPagamento(FormasDePagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
+
+    public BigDecimal getFrete() {
+        return frete;
+    }
+
+    public void setFrete(BigDecimal frete) {
+        this.frete = frete;
+    }
+
+
 }

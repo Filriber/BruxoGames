@@ -165,6 +165,7 @@ public class ProdutoController {
 
         // Redirecionar para a lista de usuários após a criação bem-sucedida
         return "redirect:/produtos";
+
     }
 
     @GetMapping("/edit")
@@ -430,7 +431,7 @@ public class ProdutoController {
     }
 
 
-    @GetMapping("buscamarca/{marca}")
+    @GetMapping("/buscamarca/{marca}")
     public String listaProdutosMarca(@PathVariable String marca, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
@@ -448,7 +449,7 @@ public class ProdutoController {
         List<Produto>  produtos = repo.findByMarca(marca);
         model.addAttribute("produtos", produtos);
 
-        return  ("home/produtosPorMarca");
+        return  "home/produtosPorMarca";
 
     }
 

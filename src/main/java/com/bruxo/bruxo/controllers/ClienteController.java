@@ -20,12 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 import com.bruxo.bruxo.service.ClienteRepository;
@@ -35,7 +30,6 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/clientes")
-@Service
 public class ClienteController {
 
     @Autowired
@@ -50,6 +44,7 @@ public class ClienteController {
     PasswordEncoder passwordEncoder;
 
     public ClienteController(ClienteRepository clienteRepository) {
+        this.repo = clienteRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -76,7 +71,7 @@ public class ClienteController {
         if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha())) {
             // Adicione um erro ao BindingResult
             bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
-            return "usuarios/CriaUsuario";
+            return "clientes/CriaCliente";
         }
 
         // Verificar se o cliente forneceu um endereço
@@ -356,6 +351,16 @@ public class ClienteController {
         // Adicionar os pedidos ao modelo
 
         return "clientes/PedidosCliente";
+    }
+
+    @GetMapping("/detalhes/{pedidoId}")
+    public String mostrarDetalhesPedido(Model model, @PathVariable int pedidoId) {
+        Pedido pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+
+        model.addAttribute("pedido", pedido);
+
+        return "clientes/DetalhesPedido";
     }
 
     private boolean isValidCPF(String cpf) {

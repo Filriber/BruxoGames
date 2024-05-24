@@ -1,12 +1,163 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
-<!-- Esse index é página HOME -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial - Bruxo Jogos</title>
     <link rel="stylesheet" href="../static/css/home.css">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #444; /* Nova cor do cabeçalho */
+            color: white;
+        }
+
+        .logo img {
+            max-width: 250px; /* Logo maior */
+            height: auto;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu img {
+            margin-right: 10px;
+        }
+
+        .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .icons a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .icons img {
+            margin-right: 10px;
+        }
+
+        .banners {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .banner img {
+            max-width: 100%;
+            height: auto;
+            margin: 0 10px;
+        }
+
+        .secao {
+            padding: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .produto {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .produto img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .rodape {
+            background-color: #444; /* Nova cor do rodapé */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .rodape-div {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .rodape-div div {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .rodape-direitos {
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .menu, .icons {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 10px;
+            }
+
+            .menu {
+                align-self: flex-end;
+            }
+
+            .menu a, .icons a {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .banners {
+                flex-direction: column;
+            }
+
+            .banner img {
+                margin: 10px 0;
+            }
+
+            .rodape-div {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
 <header class="header">
@@ -14,22 +165,20 @@
         <img src="../imagens/logo.png" alt="Logo">
     </div>
     <nav class="menu">
-        <a href="#" class="text_header"><img src="../imagens/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
-        <a href="#" class="text_header"><img src="../imagens/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
+        <a href="#" class="text_header"><img src="../imagens/icons/menu.svg" />Menu</a>
+        <a href="#" class="text_header"><img src="../imagens/icons/search.svg" />Buscar</a>
     </nav>
     <div class="icons">
         <div th:unless="${usuarioLogado}">
             <a href="clientes/create" class="text_header">Cadastrar</a>
-        </div>
-        <div th:unless="${usuarioLogado}">
             <a href="/login" class="text_header">Login</a>
         </div>
         <div th:if="${usuarioLogado}">
-            <a th:text="${nomeCliente}" class="text_header" style="margin-right: 30px;"></a>
+            <a th:text="${nomeCliente}" class="text_header"></a>
             <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
+            <a th:href="@{/clientes/PerfilCliente}" class="text_header"><img src="../imagens/icons/profile.svg" /></a>
         </div>
-        <a th:if="${usuarioLogado}" th:href="@{/clientes/PerfilCliente}" class="text_header"><img src="../imagens/icons/profile.svg" style="margin-right: 15px;" /></a>
-        <a href="/carrinho" class="text_header"><img src="../imagens/icons/cart.svg" style="margin-right: 15px;" /></a>
+        <a href="/carrinho" class="text_header"><img src="../imagens/icons/cart.svg" /></a>
     </div>
 </header>
 
@@ -41,15 +190,12 @@
         <div class="banner">
             <img src="../imagens/banner2.png" alt="Banner 2">
         </div>
-        <div class="banner">
-            <img src="../imagens/promo/promo8.png" alt="Banner 3">
-        </div>
     </div>
 
     <section class="secao">
         <div class="cards">
             <div th:each="produto : ${produtos}" class="produto">
-                <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
+                <a th:href="@{/produtos/view/{id}(id=${produto.id})}">
                     <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}" alt="Produto" />
                     <h3 th:text="${produto.nome}"></h3>
                     <p th:text="'R$ ' + ${produto.preco}"></p>
@@ -76,27 +222,11 @@
     </div>
     <p class="rodape-direitos">Todos os direitos reservados.</p>
 </footer>
-</body>
 
 <script>
     function confirmLogout() {
-        if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
+        return confirm("Tem certeza que deseja sair da sua conta?");
     }
-
-
-    document.getElementById("menu").addEventListener("mouseenter", function () {
-        document.getElementById("painel").style.display = "flex";
-    });
-
-    document.getElementById("menu").addEventListener("mouseleave", function () {
-        document.getElementById("painel").style.display = "none";
-    })
-
-
-    document.getElementById("")
-
-
 </script>
-
-
+</body>
 </html>
