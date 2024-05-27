@@ -1,60 +1,211 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Detalhes do Produto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #FFF;
+            border-bottom: 3px solid #EF2B00;
+        }
+
+        .logo {
+            height: 60px;
+        }
+
+        #container_header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        .text_header {
+            text-decoration: none;
+            color: #000;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .text_header img {
+            margin-right: 15px;
+        }
+
+        #menu, #search-container, #container_profile {
+            display: flex;
+            align-items: center;
+            height: 60px;
+            padding-right: 25px;
+        }
+
+        #menu {
+            border-right: solid #EF2B00 3px;
+            margin-right: 25px;
+        }
+
+        #search-container {
+            border-right: solid #EF2B00 3px;
+            padding-right: 65px;
+            margin-right: 25px;
+        }
+
+        #container_profile {
+            border-left: solid #EF2B00 3px;
+            padding-left: 25px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #container_total {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #container_info {
+            flex: 1;
+        }
+
+        #title_product {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #price_product {
+            font-size: 20px;
+            color: #EF2B00;
+        }
+
+        #container_imagem {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #imagem_produto img {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        #arrows_container img {
+            cursor: pointer;
+        }
+
+        #quantity_container {
+            display: flex;
+            align-items: center;
+        }
+
+        #quantity_container img {
+            cursor: pointer;
+        }
+
+        .bolinha {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #CCC;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .bolinha.ativa {
+            background-color: #EF2B00;
+        }
+
+        .button {
+            background-color: #EF2B00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #d12700;
+        }
+    </style>
 </head>
+
 <body>
 <header>
     <img src="/imagens/logo.png" class="logo" alt="Logo">
     <span id="container_header">
-        <div id="menu" style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
-            <a class="text_header"><img src="/imagens/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
-            <div id="painel" class="painel">
-                <div class="painel_container">
-                    <section><a href="/produtos/buscatipo/Jogos de Cartas">Jogos de Cartas</a></section>
-                    <section><a href="/produtos/buscatipo/Jogos de Tabuleiros">Jogos de Tabuleiros</a></section>
+            <div id="menu">
+                <a class="text_header">
+                    <img src="/imagens/icons/menu.svg" alt="Menu Icon" />Menu
+                </a>
+                <div id="painel" class="painel" style="display: none;">
+                    <div class="painel_container">
+                        <section><a href="/produtos/buscatipo/Jogos de Cartas">Jogos de Cartas</a></section>
+                        <section><a href="/produtos/buscatipo/Jogos de Tabuleiros">Jogos de Tabuleiros</a></section>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="search-container" class="search-container" style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
-            <a id="text-header" class="text_header"><img src="/imagens/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
-        </div>
-        <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
-            <a href="clientes/create" class="text_header">Cadastrar</a>
-            <a href="/login" class="text_header" style="margin-left: 20px;"><img src="/imagens/icons/user.svg" style="margin-right: 5px;" />Login</a>
-        </div>
-        <div th:if="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 30px;">
-            <a th:text="${nomeCliente}" class="text_header" style="color: rgb(52, 36, 36); flex-direction: row; display: flex; margin-right: 30px;"></a>
-            <a href="/logout" onclick="confirmLogout()" class="text_header"><img src="/imagens/icons/logout.svg" style="margin-right: 5px;" />Logout</a>
-        </div>
-        <div id="container_profile" style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px;">
-            <a th:if="${usuarioLogado}" href="/clientes/PerfilCliente" style="display: flex; align-items: center;">
-                <img src="images/icons/profile.svg" style="margin-right: 15px;" />
-            </a>
-            <a href="/carrinho" style="display: flex; align-items: center; margin-left: 20px;">
-                <img src="images/icons/cart.svg" style="margin-right: 15px;" />
-            </a>
-        </div>
-    </span>
+            <div id="search-container">
+                <a id="text-header" class="text_header">
+                    <img src="/imagens/icons/search.svg" alt="Search Icon" />Buscar
+                </a>
+            </div>
+            <div th:unless="${usuarioLogado}" style="margin-right: 40px;">
+                <a href="clientes/create" class="text_header">Cadastrar</a>
+                <a href="/login" class="text_header" style="margin-left: 20px;">
+                    <img src="/imagens/icons/user.svg" alt="User Icon" />Login
+                </a>
+            </div>
+            <div th:if="${usuarioLogado}" style="margin-right: 30px;">
+                <a th:text="${nomeCliente}" class="text_header" style="color: rgb(52, 36, 36); margin-right: 30px;"></a>
+                <a href="/logout" onclick="confirmLogout()" class="text_header">
+                    <img src="/imagens/icons/logout.svg" alt="Logout Icon" />Logout
+                </a>
+            </div>
+            <div id="container_profile">
+                <a th:if="${usuarioLogado}" href="/clientes/PerfilCliente" class="text_header">
+                    <img src="/imagens/icons/profile.svg" alt="Profile Icon" />
+                </a>
+                <a href="/carrinho" class="text_header">
+                    <img src="/imagens/icons/cart.svg" alt="Cart Icon" />
+                </a>
+            </div>
+        </span>
 </header>
+
 <main>
     <div id="container_total">
         <div id="container_info">
             <h2 id="title_product" th:text="${produto.nome}"></h2>
             <p id="price_product">R$ <span th:text="${produto.preco}"></span></p>
             <span th:text="${produto.marca}" style="font-weight: 700; font-size: 25px; margin: 0; color: #000000;"></span>
-            <p id="avali_product"><img src="images/stars.svg" /><span th:text="${produto.avaliacao}"></span></p>
+            <p id="avali_product">
+                <img src="/imagens/icons/stars.svg" alt="Stars Icon" />
+                <span th:text="${produto.avaliacao}"></span>
+            </p>
             <p th:text="${produto.descricao}" style="word-break: break-word; font-size: 15px; font-weight: 400; width: 200px;"></p>
         </div>
         <div id="container_imagem">
             <div id="imagem_produto">
-                <img id="imagemAtual" th:src="${'imagens_produtos/' + imagens[0]}" class="img-thumbnail">
+                <img id="imagemAtual" th:src="@{imagens_produtos/${imagens[0]}}" class="img-thumbnail" alt="Produto">
             </div>
             <div style="display:flex; flex-direction: column; align-items: center;">
                 <div id="arrows_container">
-                    <img src="imagens/icons/arrowleft.png" style="margin-right: 50px;" id="botaoVolta" onclick="voltaImagem()" />
-                    <img src="imagens/icons/arrowright.png" id="botaoAvanca" onclick="proximaImagem()" />
+                    <img src="/imagens/icons/arrowleft.png" style="margin-right: 50px;" id="botaoVolta" onclick="voltaImagem()" alt="Voltar" />
+                    <img src="/imagens/icons/arrowright.png" id="botaoAvanca" onclick="proximaImagem()" alt="Avançar" />
                 </div>
                 <div id="indicadores">
                     <span th:each="imagem, index : ${imagens}" class="bolinha" onclick="mostrarImagem([[${index.index}]])"></span>
@@ -64,9 +215,9 @@
         <div id="buy_container" style="padding: 30px;">
             <form action="/carrinho/adicionar" method="post">
                 <div id="quantity_container">
-                    <img src="/imagens/icons/minus.png" onclick="decrementar()" />
+                    <img src="/imagens/icons/minus.png" onclick="decrementar()" alt="Diminuir" />
                     <p id="contador" style="font-size: 30px; font-weight: 500; padding: 20px;">1</p>
-                    <img src="/imagens/icons/plus.svg" onclick="incrementar()" />
+                    <img src="/imagens/icons/plus.svg" onclick="incrementar()" alt="Aumentar" />
                 </div>
                 <!-- Inputs ocultos para enviar dados do produto -->
                 <input type="hidden" name="produtoId" id="produtoId" th:value="${produto.id}" />
@@ -77,10 +228,11 @@
         </div>
     </div>
 </main>
+
 <script th:inline="javascript">
-    var imagens = /*[[${produto.imagens}]]*/;
-    var imagemPadrao = /*[[${produto.imagemPadrao}]]*/;
-    var indiceAtual = -1; // Inicializa o indice atual como -1
+    var imagens = /*[[${produto.imagens}]]*/ [];
+    var imagemPadrao = /*[[${produto.imagemPadrao}]]*/ '';
+    var indiceAtual = -1; // Inicializa o índice atual como -1
     var quantity = 1;
 
     function proximaImagem() {
@@ -160,7 +312,7 @@
     document.getElementById("menu").addEventListener("mouseleave", function () {
         document.getElementById("painel").style.display = "none";
     });
-
 </script>
 </body>
+
 </html>

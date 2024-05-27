@@ -5,119 +5,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bruxo Jogos</title>
-    <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/perfil.css">
+    <style>
+        body {
+            background-color: orange;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
 
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #FFF;
+            border-bottom: 3px solid #EF2B00;
+        }
+
+        .logo {
+            height: 60px;
+        }
+
+        #container_header {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .text_header {
+            text-decoration: none;
+            color: #000;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .text_header img {
+            margin-right: 15px;
+        }
+
+        #menu, #search-container, #container_profile {
+            display: flex;
+            align-items: center;
+            height: 60px;
+            padding-right: 25px;
+        }
+
+        #menu {
+            border-right: solid #EF2B00 3px;
+            margin-right: 25px;
+        }
+
+        #search-container {
+            border-right: solid #EF2B00 3px;
+            padding-right: 65px;
+            margin-right: 25px;
+        }
+
+        #container_profile {
+            border-left: solid #EF2B00 3px;
+            padding-left: 25px;
+        }
+
+        .corpo {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .texto_cabecalho {
+            font-size: 40px;
+            margin-top: 120px;
+        }
+
+        .linha {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .caixas {
+            list-style-type: none;
+            margin: 20px;
+        }
+
+        .boxItensCentral {
+            display: flex;
+            justify-content: center;
+        }
+
+        .caixas img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 </head>
 
 <body>
 <header>
-    <img src="/images/logo.png" class="logo" alt="Logo">
-    <span id="container_header">
-
-            <div id="menu"
-                 style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
-                <a class="text_header"><img src="/images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
-                <div id="painel" class="painel">
-                    <div class="painel_container">
-                        <section>Masculino</section>
-                        <section>Feminino</section>
-                        <section>Lançamentos</section>
-                        <section>Promoções</section>
-
-                    </div>
-
+    <img src="../imagens/logo.png" class="logo" alt="Logo">
+    <div id="container_header">
+        <div id="menu">
+            <a class="text_header">
+                <img src="../imagens/icons/menu.svg" alt="Menu Icon" />Menu
+            </a>
+            <div id="painel" class="painel" style="display: none;">
+                <div class="painel_container">
+                    <section>Jogos de Tabuleiro</section>
+                    <section>Jogos de Cartas</section>
                 </div>
             </div>
+        </div>
 
+        <div id="search-container">
+            <a id="text-header" class="text_header">
+                <img src="../imagens/icons/search.svg" alt="Search Icon" />Buscar
+            </a>
+        </div>
 
+        <div th:unless="${usuarioLogado}" style="margin-right: 40px;">
+            <a href="clientes/create" class="text_header">Cadastrar</a>
+        </div>
 
-            <div id="search-container" class="search-container"
-                 style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
+        <div th:unless="${usuarioLogado}" style="margin-right: 40px;">
+            <a href="/login" class="text_header">Login</a>
+        </div>
 
+        <div th:if="${usuarioLogado}" style="margin-right: 30px;">
+            <a th:text="${nomeCliente}" class="text_header" style="color: rgb(52, 36, 36); margin-right: 30px;"></a>
+            <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
+        </div>
 
-                <a id="text-header" class="text_header"><img src="/images/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
-
-            </div>
-
-
-            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
-                <a href="clientes/create" class="text_header">Cadastrar</a>
-            </div>
-
-            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
-                <a href="/login" class="text_header">Login</a>
-            </div>
-
-            <div th:if="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 30px;">
-                <a th:text="${nomeCliente}" class="text_header"
-                   style="color: rgb(52, 36, 36); flex-direction: row; display: flex; margin-right: 30px;"></a>
-
-                <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
-            </div>
-
-            <div id="container_profile"
-                 style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
-                <a th:if="${usuarioLogado}"  href="/clientes/PerfilCliente" style="display: flex; align-items: center; ">
-                    <img src="/images/icons/profile.svg" style="margin-right: 15px;" />
-                </a>
-                <div style="display: flex; align-items: center;">
-                    <a href="/carrinho" style="display: flex; align-items: center; ">
-                    <img src="/images/icons/cart.svg" style="margin-right: 15px;" />
-                </a>
-                </div>
-            </div>
-
-        </span>
+        <div id="container_profile">
+            <a th:if="${usuarioLogado}" href="/clientes/PerfilCliente" class="text_header">
+                <img src="/imagens/icons/profile.svg" alt="Profile Icon" />
+            </a>
+            <a href="/carrinho" class="text_header">
+                <img src="/imagens/icons/cart.svg" alt="Cart Icon" />
+            </a>
+        </div>
+    </div>
 </header>
 
 <div class="corpo">
-    <div>
-        <h2 class="texto_cabecalho" style="font-size: 40px; margin-top: 120px;">MINHA CONTA</h2>
-    </div>
+    <h2 class="texto_cabecalho">MINHA CONTA</h2>
     <div class="linha">
         <ul>
             <li class="caixas">
-                <a th:href="@{/clientes/edit(id=${clienteId})}" class="boxItensCentral" style="display: flex; justify-content: center;">
+                <a th:href="@{/clientes/edit(id=${clienteId})}" class="boxItensCentral">
                     <img src="https://img.terabyteshop.com.br/central/meu_cadastro.png" alt="Meu cadastro">
                 </a>
                 <p class="texto_cabecalho">Meu cadastro</p>
             </li>
             <li class="caixas">
-                <a th:href="@{/clientes/pedidos(id=${clienteId})}" class="boxItensCentral" style="display: flex; justify-content: center;">
+                <a th:href="@{/clientes/pedidos(id=${clienteId})}" class="boxItensCentral">
                     <img src="https://img.terabyteshop.com.br/central/meus_pedidos.png" alt="Meus pedidos">
                 </a>
                 <p class="texto_cabecalho">Meus pedidos</p>
             </li>
             <li class="caixas">
-                <a th:href="@{/clientes/endereco(id=${clienteId})}" style="display: flex; justify-content: center;">
+                <a th:href="@{/clientes/endereco(id=${clienteId})}" class="boxItensCentral">
                     <img src="https://img.terabyteshop.com.br/central/meus-enderecos.png" alt="Meus Endereços">
                 </a>
                 <p class="texto_cabecalho">Meus Endereços</p>
             </li>
         </ul>
     </div>
-
 </div>
-
-</body>
 
 <script>
     function confirmLogout() {
-         if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
-     }
+        if (confirm("Tem certeza que deseja sair da sua conta?")) {
+            document.getElementById("logoutButton").submit();
+        }
+    }
 
+    document.getElementById("menu").addEventListener("mouseenter", function () {
+        document.getElementById("painel").style.display = "flex";
+    });
 
-     document.getElementById("menu").addEventListener("mouseenter", function () {
-         document.getElementById("painel").style.display = "flex";
-     });
-
-     document.getElementById("menu").addEventListener("mouseleave", function () {
-         document.getElementById("painel").style.display = "none";
-     })
-
-
-     document.getElementById("")
+    document.getElementById("menu").addEventListener("mouseleave", function () {
+        document.getElementById("painel").style.display = "none";
+    });
 </script>
+</body>
 
 </html>
