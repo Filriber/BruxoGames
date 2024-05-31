@@ -161,30 +161,43 @@
 <main>
     <div class="banners">
         <div class="banner">
-            <img src="../imagens/banner1.png" alt="Banner 1">
-        </div>
-        <div class="banner">
-            <img src="../imagens/banner2.png" alt="Banner 2">
+            <img src="../imagens/banners.jpg" alt="Banner 1">
         </div>
     </div>
-
     <section class="secao">
-        <div class="cards">
-            <div th:each="produto : ${produtos}" class="produto">
-                <a th:href="@{/produtos/view/{id}(id=${produto.id})}">
-                    <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}" alt="Produto" />
-                    <h3 th:text="${produto.nome}"></h3>
-                    <p th:text="'R$ ' + ${produto.preco}"></p>
-                </a>
-            </div>
+        <div th:each="produto : ${produtos}" class="cards">
+            <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
+                <div style="cursor: pointer;">
+                    <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}"
+                         style="max-width: 300px; max-height: 400px;" />
+                    <h3 th:text="${produto.nome}"
+                        style="display: flex; flex: 1; align-items: center;  text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
+                    </h3>
+                    <p
+                            style="font-family: 'Segoe UI'; font-weight: 400; color: #EF2B00; margin-left: 15px; font-size: 20px;">
+                        R$<span th:text="${produto.preco}"></span></p>
         </div>
     </section>
 </main>
 
 <script>
     function confirmLogout() {
-        return confirm("Tem certeza que deseja sair da sua conta?");
+        if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
     }
+
+
+    document.getElementById("menu").addEventListener("mouseenter", function () {
+        document.getElementById("painel").style.display = "flex";
+    });
+
+    document.getElementById("menu").addEventListener("mouseleave", function () {
+        document.getElementById("painel").style.display = "none";
+    })
+
+
+    document.getElementById("")
+
+
 </script>
 </body>
 

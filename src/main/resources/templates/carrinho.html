@@ -197,7 +197,7 @@
 <div th:if="${carrinho.itens.size() == 0}">
     <div
             style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <img style="width: 250px; height: 250px; margin-top: 50px;" src="/imagens/await.gif">
+        <img style="width: 250px; height: 250px; margin-top: 50px;" src="../imagens/await.gif">
 
         <p style="font-family: 'Segoe UI'; font-size: 40px; font-weight: 500;">Você ainda não tem produtos no carrinho</p>
         <a href="/home"
@@ -223,7 +223,7 @@
                             <input type="hidden" name="produtoId" th:value="${item.produto.id}">
 
                             <button type="submit" style="  border: none; background-color:unset ;">
-                                <img src="..static/imagens/icons/esquerda.svg" onclick="decrementar()" />
+                                <img src="../imagens/icons/esquerda.svg" onclick="decrementar()" />
                             </button>
                         </form>
                         <span id="quantity_item" th:text="${item.quantidade}"
@@ -232,7 +232,7 @@
                         <form method="post" action="/carrinho/aumentar">
                             <input type="hidden" name="produtoId" th:value="${item.produto.id}">
                             <button type="submit" style="  border: none; background-color:unset ;">
-                                <img src="..static/imagens/icons/direita.svg" onclick="incrementar()" />
+                                <img src="../imagens/icons/direita.svg" onclick="incrementar()" />
                             </button>
                         </form>
                     </div>
@@ -243,7 +243,7 @@
                     <input type="hidden" name="produtoId" th:value="${item.produto.id}">
                     <button style="border: none; background-color: unset; margin-left: 120px; display: flex;"
                             type="submit">
-                        <img src="..static/imagens/icons/delete.svg" style="height: 30px; width: 30px; display: flex;" />
+                        <img src="../imagens/icons/delete.svg" style="height: 30px; width: 30px; display: flex;" />
                     </button>
                 </form>
             </div>
