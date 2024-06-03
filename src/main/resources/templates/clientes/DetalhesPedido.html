@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+    background-color: #EF2B00;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #000;
+}
+
+#container_total {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+}
+
+#container_list {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.imagens_produto {
+    margin: 10px;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+#container_descriptions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#container_resume,
+#container_entrega {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 250px;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#container_entrega {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+#container_entrega h3,
+#container_entrega p {
+    color: #000000;
+}
+
+button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #EF2B00;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 20px;
+    font-weight: 600;
+}
+
+button[type="submit"]:hover {
+    background-color: #FF6B3D;
+}
+
+button[type="button"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 20px;
+}
+
+button[type="button"]:hover {
+    background-color: #FF6B3D;
+}
+
+@media screen and (max-width: 768px) {
+    #container_total {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #container_list {
+        padding: 10px;
+    }
+
+    #container_resume,
+    #container_entrega {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .imagens_produto {
+        margin: 5px;
+        max-width: 100px;
+        max-height: 100px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+<main>
+    <div id="container_total">
+        <div id="container_list">
+            <div  th:each="item : ${pedido.itens}">
+                <div id="container_descriptions">
+                    <img class="imagens_produto" th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}" />
+                    <div>
+                        <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
+                        </p>
+                        <p>Preço: <span> R$ </span><span id="price_item" th:text="${item.produto.preco}"></span>
+                        </p>
+                        <p>Quantidade: <span id="quantity_item" th:text="${item.quantidade}"></span> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+            <div id="container_resume">
+                <p style="color: #848484;">Total dos Produtos: <span style="font-weight: 800; color: black;">R$
+                        </span><span th:text="${pedido.valorTotal}"
+                                     style="font-weight: 800; color: black;"></span>
+                </p>
+                <p style="color: #848484;">Frete: <span style="font-weight: 800; color: black;">R$ </span><span
+                        th:text="${pedido.frete}" style="font-weight: 800; color: black;"></span></p>
+            </div>
+
+            <div id="container_entrega">
+                <h3>Entrega</h3>
+                <span><span th:text="${pedido.enderecoEntrega.logradouro}"> </span></span>
+                <span><span th:text="${pedido.enderecoEntrega.bairro}"> </span></span>
+                <span><span th:text="${pedido.enderecoEntrega.numero}"> </span></span>
+                <span><span th:text="${pedido.enderecoEntrega.cidade}"> </span></span>
+                <span><span th:text="${pedido.enderecoEntrega.uf}"> </span></span>
+                <span><span th:text="${pedido.enderecoEntrega.cep}"> </span></span>
+            </div>
+        </div>
+
+
+        <div id="container_entrega">
+            <h3>Pagamento</h3>
+            <div>
+                <p>Tipo de Pagamento: <span th:text="${pedido.formaPagamento.tipo}"></span></p>
+                <p>Numero do cartão: <span th:text="${pedido.formaPagamento.numeroCartao}"></span></p>
+                <p>Codigo Verificador: <span th:text="${pedido.formaPagamento.codigoVerificador}"></span></p>
+                <p>Nome Completo: <span th:text="${pedido.formaPagamento.nomeCompleto}"></span></p>
+                <p>Data de vencimento: <span th:text="${pedido.formaPagamento.dataVencimento}"></span></p>
+                <p>Quantidade de parcelas: <span th:text="${pedido.formaPagamento.quantidadeParcelas}"></span></p>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>
+    <button type="button" onclick="history.back()">Voltar</button>
+
+</main>
+</body>
+
+</html>

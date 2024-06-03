@@ -1,8 +1,6 @@
 package com.bruxo.bruxo.controllers;
 
-import com.bruxo.bruxo.models.Cliente;
-import com.bruxo.bruxo.models.Produto;
-import com.bruxo.bruxo.models.ProdutoDto;
+import com.bruxo.bruxo.models.*;
 import com.bruxo.bruxo.service.ProdutoRepository;
 
 import java.io.File;
@@ -16,7 +14,6 @@ import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,12 +21,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+
+import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
