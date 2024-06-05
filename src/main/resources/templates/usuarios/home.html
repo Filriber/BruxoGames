@@ -52,7 +52,16 @@
     </div>
     <div class="row justify-content-center mt-4">
         <div class="col-md-6 text-center">
+            <th:block th:if="${grupoUsuario != null && grupoUsuario == 'Administrador'}">
+
             <a id="button2" href="/usuarios" class="btn btn-custom btn-lg">LISTAR<br>USUÁRIOS</a>
+        </th:block>
+
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6 text-center">
+            <a id="button2" href="/pedido/MostraPedidos" class="btn btn-custom btn-lg">LISTAR<br>PEDIDOS</a>
         </div>
     </div>
     <div class="row justify-content-center mt-4">

@@ -23,9 +23,13 @@
         <div class="col">
             <h1 class="text-center my-4">Produtos Cadastrados</h1>
         </div>
+        
         <div class="col-auto" style="margin-top: 40px">
             <a class="btn btn-primary" href="/">Voltar</a>
+            <th:block th:if="${grupoUsuario != null && grupoUsuario == 'Administrador'}">
+
             <button type="button" class="btn btn-outline-secondary" th:onclick="|window.location.href='/produtos/create'|">Adicionar Produto</button>
+        </th:block>
 
         </div>
     </div>

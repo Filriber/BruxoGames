@@ -350,7 +350,7 @@ public class ClienteController {
 
         // Adicionar os pedidos ao modelo
 
-        return "clientes/PedidosCliente";
+        return "clientes/PedidoClientes";
     }
 
     @GetMapping("/detalhes/{pedidoId}")

@@ -169,8 +169,8 @@
             <div th:each="produto : ${produtos}" class="produto">
                 <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
                     <div style="cursor: pointer;">
-                        <img th:src="@{'/src/resources/static/imagens_produtos/' + ${produto.imagemPadrao}}"
-                             style="max-width: 300px; max-height: 400px;" />
+                        <img th:src="@{'imagens_produtos/' + ${produto.imagemPadrao}}"
+                             style="max-width: 200px; max-height: 200px;" />
                         <h3 th:text="${produto.nome}"
                             style="display: flex; flex: 1; align-items: center; text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
                         </h3>
